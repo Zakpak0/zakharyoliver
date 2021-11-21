@@ -1,0 +1,173 @@
+const fs = require("fs");
+const readline = require("readline");
+const { google, GoogleApis } = require("googleapis");
+
+// If modifying these scopes, delete token.json.
+const SCOPES = ["https://www.googleapis.com/auth/calendar"];
+// The file token.json stores the user's access and refresh tokens, and is
+// created automatically when the authorization flow completes for the first
+// time.
+const TOKEN_PATH = "token.json";
+
+// Load client secrets from a local file.
+const auth = fs.readFile("../zakharyoliver.json", (err, content) => {
+  if (err) return console.log("Error loading client secret file:", err);
+  // Authorize a client with credentials, then call the Google Calendar API.
+  authorize(JSON.parse(content));
+});
+
+/**
+ * Create an OAuth2 client with the given credentials, and then execute the
+ * given callback function.
+ * @param {Object} credentials The authorization client credentials.
+ * @param {function} callback The callback to call with the authorized client.
+ */
+function authorize(credentials, callback) {
+  console.log(credentials);
+  const { client_secret, client_id, redirect_uris } = credentials.web;
+  const oAuth2Client = new google.auth.OAuth2(
+    client_id,
+    client_secret,
+    redirect_uris[0]
+  );
+
+  // Check if we have previously stored a token.
+  fs.readFile(TOKEN_PATH, (err, token) => {
+    if (err) return getAccessToken(oAuth2Client, callback);
+    oAuth2Client.setCredentials(JSON.parse(token));
+    return oAuth2Client;
+  });
+}
+
+/**
+ * Get and store new token after prompting for user authorization, and then
+ * execute the given callback with the authorized OAuth2 client.
+ * @param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
+ * @param {getEventsCallback} callback The callback for the authorized client.
+ */
+function getAccessToken(oAuth2Client, callback) {
+  const authUrl = oAuth2Client.generateAuthUrl({
+    access_type: "offline",
+    scope: SCOPES,
+  });
+  console.log("Authorize this app by visiting this url:", authUrl);
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+  rl.question("Enter the code from that page here: ", (code) => {
+    rl.close();
+    oAuth2Client.getToken(code, (err, token) => {
+      if (err) return console.error("Error retrieving access token", err);
+      oAuth2Client.setCredentials(token);
+      // Store the token to disk for later program executions
+      fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
+        if (err) return console.error(err);
+        console.log("Token stored to", TOKEN_PATH);
+      });
+      callback(oAuth2Client);
+    });
+  });
+}
+/**
+ * Lists the next 10 events on the user's primary calendar.
+ * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
+ */
+const createEvent = (event = "event") => {
+  let {
+    summary = "Text event",
+    location = "Remote",
+    description = "A test for the google calendar API",
+    start = {
+      dateTime: "2021-11-20T09:00:00-07:00",
+      timeZone: "America/Los_Angeles",
+    },
+    end = {
+      dateTime: "2021-11-21T17:00:00-07:00",
+      timeZone: "America/Los_Angeles",
+    },
+    recurrence,
+    attendees = [],
+    reminders = {
+      useDefault: false,
+      overrides: [
+        { method: "email", minutes: 24 * 60 },
+        { method: "popup", minutes: 10 },
+      ],
+    },
+  } = event;
+  google.calendar({ version: "v3", auth }).events.insert(
+    {
+      calendarId: "primary",
+      resource: {
+        summary,
+        location,
+        description,
+        start,
+        end,
+        recurrence,
+        attendees,
+        reminders,
+      },
+    },
+    (err, res) => {
+      if (err) console.log(err);
+      if (res) console.log(res);
+    }
+  );
+};
+
+const listEvents = () => {
+  const calendar = google.calendar({ version: "v3", auth });
+  calendar.events.list(
+    {
+      calendarId: "primary",
+      timeMin: new Date(),
+      maxResults: 30,
+      singleEvents: true,
+      orderBy: "startTime",
+    },
+    (err, res) => {
+      if (err) return console.log("The API returned an error: " + err);
+      if (res) {
+        let {
+          data: { items },
+        } = res;
+        items.map((appointment) => {
+          let start = {
+            date: new Date(appointment.start.dateTime)
+              .toDateString()
+              .split(" "),
+            time: new Date(appointment.start.dateTime)
+              .toLocaleTimeString()
+              .split(" ")[0],
+          };
+          let end = {
+            date: new Date(appointment.end.dateTime).toDateString().split(" "),
+            time: new Date(appointment.end.dateTime)
+              .toLocaleTimeString()
+              .split(" ")[0],
+          };
+          return console.log({
+            start: {
+              day: start.date[0],
+              month: start.date[1],
+              date: start.date[2],
+              year: start.date[3],
+              time: start.time,
+            },
+            end: {
+              day: end.date[0],
+              month: end.date[1],
+              date: end.date[2],
+              year: end.date[3],
+              time: end.time,
+            },
+          });
+        });
+      } else {
+        console.log("No upcoming events found.");
+      }
+    }
+  );
+};
