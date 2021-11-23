@@ -1,4 +1,5 @@
 import { listEvents, createEvent } from "./index.js";
+import appointmentConfirmationEmail from "../gmail/service.js";
 import readline from "readline";
 
 const useGoogleCalendarService = () => {
@@ -53,12 +54,20 @@ const useGoogleCalendarService = () => {
   (Yes or No)
 > `,
                         (response) => {
-                          if (response.trim().toLowerCase() == "Yes") {
-                            createEvent(event, (response) => {
-                              return console.log(response), rl.close();
+                          if (response.trim().toLowerCase() == "yes") {
+                            rl.close();
+                            appointmentConfirmationEmail((callback, email) => {
+                              event.attendees = [email];
+                              console.log(
+                                "Appointment confirmed, creating event:",
+                                callback
+                              );
+                              createEvent(event, (response) => {
+                                return console.log(response), process.exit();
+                              });
                             });
                           } else {
-                            return console.log("Cancelled"), rl.close();
+                            return console.log("Cancelled");
                           }
                         }
                       );
