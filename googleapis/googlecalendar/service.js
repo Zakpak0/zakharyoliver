@@ -57,7 +57,11 @@ const useGoogleCalendarService = () => {
                           if (response.trim().toLowerCase() == "yes") {
                             rl.close();
                             appointmentConfirmationEmail((callback, email) => {
-                              event.attendees = [email];
+                              event.attendees = [
+                                [email].map((emails) => {
+                                  return { email: emails };
+                                }),
+                              ];
                               console.log(
                                 "Appointment confirmed, creating event:",
                                 callback
