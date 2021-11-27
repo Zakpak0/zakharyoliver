@@ -32,7 +32,7 @@ const appointmentConfirmationEmail = (callback) => {
       }
     }
   });
-  server.listen(3200, console.log("The server is now listening on port 3000"));
+  server.listen(3200, console.log("The server is now listening on port 3200"));
   let html = `
   <div>
       <h1>Click Here to Confirm</h1>
