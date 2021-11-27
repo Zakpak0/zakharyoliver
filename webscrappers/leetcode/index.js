@@ -5,7 +5,6 @@ export const getRecentSubs = (callback) => {
     recentSubmissionList(username: $username) {
       runtime
       title
-      titleSlug
       timestamp
       statusDisplay
       lang
@@ -42,11 +41,10 @@ export const getRecentSubs = (callback) => {
           answeredQuestions.push(question);
         }
       });
-      console.log(answeredQuestions);
+      callback(answeredQuestions);
     });
   });
 
   req.write(queryBody);
   req.end();
 };
-getRecentSubs();
