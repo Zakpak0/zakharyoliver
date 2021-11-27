@@ -1,14 +1,15 @@
 import https from "https";
-const getRecentSubs = () => {
-  let body = JSON.stringify({
-    query: `query getRecentSubmissionList($username: String!, $limit: Int) {
-    recentSubmissionList(username: $username, limit: $limit) {
+export const getRecentSubs = (callback) => {
+  let queryBody = JSON.stringify({
+    query: `query getRecentSubmissionList($username: String!) {
+    recentSubmissionList(username: $username) {
+      runtime
       title
       titleSlug
       timestamp
       statusDisplay
       lang
-      __typename
+      id
     }
   }`,
     variables: { username: "Zakpak0" },
@@ -20,7 +21,7 @@ const getRecentSubs = () => {
     path: "/graphql",
     headers: {
       "Content-Type": "application/json",
-      "Content-Length": body.length,
+      "Content-Length": queryBody.length,
       "User-Agent": "Node",
     },
   };
@@ -41,21 +42,11 @@ const getRecentSubs = () => {
           answeredQuestions.push(question);
         }
       });
+      console.log(answeredQuestions);
     });
   });
 
-  req.write(body);
+  req.write(queryBody);
   req.end();
 };
-https.get("https://leetcode.com/", (res) => {
-  let body = "";
-  res.on("data", (data) => {
-    body += data;
-  });
-  res.on("error", (error) => {
-    console.log(error);
-  });
-  res.on("close", (join) => {
-    console.log(body);
-  });
-});
+getRecentSubs();
