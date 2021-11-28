@@ -136,6 +136,11 @@ const init = async () => {
         }
       });
     }
+    if (
+      request.method === "POST" &&
+      parsedUrl.pathname === "/makeappointment"
+    ) {
+    }
   });
 
   server.listen(PORT, console.log(`API is now running on port ${PORT}`));
