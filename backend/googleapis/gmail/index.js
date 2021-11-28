@@ -13,7 +13,7 @@ const TOKEN_PATH = "token.json";
 
 // Load client secrets from a local file.
 const getGoogleServiceWithAuth = (service) => {
-  fs.readFile("../zakharyoliver.json", (err, content) => {
+  fs.readFile("zakharyoliver.json", (err, content) => {
     if (err) return console.log("Error loading client secret file:", err);
     // Authorize a client with credentials, then call the Gmail API.
     authorize(JSON.parse(content), service);
@@ -120,4 +120,3 @@ export const sendEmail = (html, email, callback) => {
   };
   getGoogleServiceWithAuth(service);
 };
-sendEmail();

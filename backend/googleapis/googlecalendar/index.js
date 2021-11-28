@@ -14,7 +14,7 @@ const TOKEN_PATH = "token.json";
 
 // Load client secrets from a local file.
 const getGoogleServiceWithAuth = (service) => {
-  fs.readFile("./zakharyoliver.json", (err, content) => {
+  fs.readFile("zakharyoliver.json", (err, content) => {
     if (err) return console.log("Error loading client secret file:", err);
     // Authorize a client with credentials, then call the Google Calendar API.
     authorize(JSON.parse(content), service);
@@ -142,40 +142,46 @@ export const listEvents = (callback) => {
           let {
             data: { items },
           } = res;
-          items.map((appointment) => {
-            let start = {
-              date: new Date(appointment.start.dateTime)
-                .toDateString()
-                .split(" "),
-              time: new Date(appointment.start.dateTime)
-                .toLocaleTimeString()
-                .split(" ")[0],
-            };
-            let end = {
-              date: new Date(appointment.end.dateTime)
-                .toDateString()
-                .split(" "),
-              time: new Date(appointment.end.dateTime)
-                .toLocaleTimeString()
-                .split(" ")[0],
-            };
-            return callback({
-              start: {
-                day: start.date[0],
-                month: start.date[1],
-                date: start.date[2],
-                year: start.date[3],
-                time: start.time,
-              },
-              end: {
-                day: end.date[0],
-                month: end.date[1],
-                date: end.date[2],
-                year: end.date[3],
-                time: end.time,
-              },
+          if (!items.length) {
+            callback(JSON.stringify("No upcoming events"));
+          } else {
+            items.map((appointment) => {
+              let start = {
+                date: new Date(appointment.start.dateTime)
+                  .toDateString()
+                  .split(" "),
+                time: new Date(appointment.start.dateTime)
+                  .toLocaleTimeString()
+                  .split(" ")[0],
+              };
+              let end = {
+                date: new Date(appointment.end.dateTime)
+                  .toDateString()
+                  .split(" "),
+                time: new Date(appointment.end.dateTime)
+                  .toLocaleTimeString()
+                  .split(" ")[0],
+              };
+              return callback(
+                JSON.stringify({
+                  start: {
+                    day: start.date[0],
+                    month: start.date[1],
+                    date: start.date[2],
+                    year: start.date[3],
+                    time: start.time,
+                  },
+                  end: {
+                    day: end.date[0],
+                    month: end.date[1],
+                    date: end.date[2],
+                    year: end.date[3],
+                    time: end.time,
+                  },
+                })
+              );
             });
-          });
+          }
         } else {
           console.log("No upcoming events found.");
         }
@@ -184,4 +190,3 @@ export const listEvents = (callback) => {
   };
   getGoogleServiceWithAuth(service);
 };
-listEvents();
