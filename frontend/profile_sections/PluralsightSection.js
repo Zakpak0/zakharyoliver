@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import http from "http";
+import { H1, H2, A, P, Button, Input, Div } from "../pages/index.js";
 const PluralsightSection = () => {
   const [body, setBody] = useState();
   useEffect(() => {
@@ -12,9 +13,9 @@ const PluralsightSection = () => {
         setBody(JSON.parse(body));
       });
     });
-    console.log(body);
   }, []);
-  return <div></div>;
+  console.log(body);
+  return <div>{JSON.stringify(body)}</div>;
 };
 
 export default PluralsightSection;

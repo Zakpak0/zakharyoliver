@@ -21,7 +21,6 @@ const init = async () => {
       verifyId(id, (callback) => {
         if (callback) {
           response.setHeader("Content-Type", "text/html", "charset=utf-8");
-          response.setHeader("Access-Control-Allow-Origin", "*");
           response.statusCode = 201;
           response.write(`
                         <html>
@@ -36,6 +35,7 @@ const init = async () => {
     }
     if (request.method === "GET" && parsedUrl.pathname === "/listevents") {
       response.setHeader("Content-Type", "application/json");
+      response.setHeader("Access-Control-Allow-Origin", "*");
       response.statusCode = 201;
       listEvents((callback) => {
         response.write(callback);
@@ -53,7 +53,7 @@ const init = async () => {
       }, 10000);
       mapGithubData(
         (repo) => {
-          responseData.push(repo);
+          responseData.push({ Repo_Data: repo });
           if (responseData.length == 3) {
             clearTimeout(timeout);
             response.write(JSON.stringify(responseData));
@@ -61,7 +61,7 @@ const init = async () => {
           }
         },
         (repoCount) => {
-          responseData.push(repoCount);
+          responseData.push({ Repo_Count_Data: repoCount });
           if (responseData.length == 3) {
             clearTimeout(timeout);
             response.write(JSON.stringify(responseData));
@@ -69,7 +69,7 @@ const init = async () => {
           }
         },
         (contributions) => {
-          responseData.push(contributions);
+          responseData.push({ Contributions_Data: contributions });
           if (responseData.length == 3) {
             clearTimeout(timeout);
             response.write(JSON.stringify(responseData));
@@ -89,7 +89,7 @@ const init = async () => {
       }, 10000);
       mapPluralsightData(
         (courseData) => {
-          responseData.push(courseData);
+          responseData.push({ Course_Data: courseData });
           if (responseData.length == 4) {
             clearTimeout(timeout);
             response.write(JSON.stringify(responseData));
@@ -97,7 +97,7 @@ const init = async () => {
           }
         },
         (learningData) => {
-          responseData.push(learningData);
+          responseData.push({ Learning_Data: learningData });
           if (responseData.length == 4) {
             clearTimeout(timeout);
             response.write(JSON.stringify(responseData));
@@ -105,7 +105,7 @@ const init = async () => {
           }
         },
         (badgeData) => {
-          responseData.push(badgeData);
+          responseData.push({ Badge_Data: badgeData });
           if (responseData.length == 4) {
             clearTimeout(timeout);
             response.write(JSON.stringify(responseData));
@@ -113,7 +113,7 @@ const init = async () => {
           }
         },
         (activityData) => {
-          responseData.push(activityData);
+          responseData.push({ Activity_Data: activityData });
           if (responseData.length == 4) {
             clearTimeout(timeout);
             response.write(JSON.stringify(responseData));
@@ -132,7 +132,7 @@ const init = async () => {
         response.end();
       }, 10000);
       mapLeetcodeData((recentSubs) => {
-        responseData.push(recentSubs);
+        responseData.push({ Recent_Subs: recentSubs });
         if (responseData.length == 1) {
           clearTimeout(timeout);
           response.write(JSON.stringify(responseData));
