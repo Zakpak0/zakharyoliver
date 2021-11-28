@@ -111,9 +111,7 @@ const getGithubInfo = {
         });
         res.on("close", (res) => {
           body = JSON.parse(body);
-          let contributions =
-            body.data.user.contributionsCollection.contributionCalendar;
-
+          let contributions = body.data.user.contributionsCollection.contributionCalendar;
           callback(contributions);
         });
       });
@@ -125,3 +123,6 @@ const getGithubInfo = {
   },
 };
 export const { getRepos, getRepoCount, getContributions } = getGithubInfo;
+getContributions((callback) => {
+  console.log(callback)
+})

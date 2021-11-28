@@ -8,6 +8,7 @@ export const mapGithubData = (repos, repoCount, contributions) => {
     if (repoCount) repoCount(callback);
   });
   getContributions((callback) => {
-    if (contributions) contributions(callback);
+    if (contributions) {
+        contributions(callback)};
   });
 };

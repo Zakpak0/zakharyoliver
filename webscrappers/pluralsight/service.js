@@ -5,13 +5,13 @@ import {
   activityInsigts,
 } from "./index.js";
 
-const mapPluralsightData = (
+export const mapPluralsightData = (
   courseData,
   learningData,
   badgeData,
   activityData
 ) => {
-  completedCoures((callback) => {
+  if(courseData) completedCoures((callback) => {
     let courseAnaylitcs = [];
     callback.map((course) => {
       let { level, authors, title, timeCompleted } = course;
@@ -25,7 +25,7 @@ const mapPluralsightData = (
     });
     courseData(courseAnaylitcs);
   });
-  currentlyLearning((callback) => {
+  if (learningData) currentlyLearning((callback) => {
     let courseAnaylitcs = [];
     callback.map((course) => {
       let { level, authors, title, percentComplete } = course;
@@ -39,7 +39,7 @@ const mapPluralsightData = (
     });
     learningData(courseAnaylitcs);
   });
-  badges((callback) => {
+  if(badgeData) badges((callback) => {
     let courseAnaylitcs = [];
     callback.map((course) => {
       let { name, iconUrl, description, dateAchieved } = course;
@@ -52,7 +52,7 @@ const mapPluralsightData = (
     });
     badgeData(courseAnaylitcs);
   });
-  activityInsigts((callback) => {
+  if(activityData) activityInsigts((callback) => {
     let courseAnalytics = { hoursViewed: {}, subjectViews: [] };
     let { viewTime, subjectViews } = callback;
     let hoursViewed = `${Math.floor(

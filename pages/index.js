@@ -2,15 +2,17 @@ import Head from "next/head";
 import Image from "next/image";
 import { theme, styled } from "../stitches.config";
 import styles from "../styles/Home.module.css";
+import PluralsightSection from "../profile_sections/PluralsightSection"
+export const H1 = styled("h1", {});
+export const H2 = styled("h2", {});
+export const A = styled("a", {});
+export const P = styled("p", {});
+export const Button = styled("button", {});
+export const Input = styled("input", {});
+export const Div = styled("div", {});
+
 
 export default function Home() {
-  const H1 = styled("h1", {});
-  const H2 = styled("h2", {});
-  const A = styled("a", {});
-  const P = styled("p", {});
-  const Button = styled("button", {});
-  const Input = styled("input", {});
-  const Div = styled("div", {});
   return (
     <div className={styles.container}>
       <Head>
@@ -51,6 +53,7 @@ export default function Home() {
           <A href="pluralsight.com/zakpak0">
             <H2>Technical Skills</H2>
             <P>Pluralsight</P>
+            <PluralsightSection/>
           </A>
 
           <A href="github.com/zakpak0">
