@@ -1,5 +1,5 @@
 import https from "https";
-export const getPluralsightInfo = {
+const getPluralsightInfo = {
   currentlyLearning: (callback) =>
     https.get(
       "https://app.pluralsight.com/profile/data/currentlylearning/83b81959-5219-4864-a1f6-00bfa47c976f",
@@ -57,3 +57,10 @@ export const getPluralsightInfo = {
       }
     ),
 };
+
+export const {
+  currentlyLearning,
+  completedCoures,
+  badges,
+  activityInsigts,
+} = getPluralsightInfo;

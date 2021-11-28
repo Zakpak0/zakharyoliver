@@ -1,9 +1,10 @@
-import * as Pluralsight from "./index.js";
-import { useState } from "react";
-const currentlyLearning = Pluralsight.getPluralsightInfo.currentlyLearning;
-const badges = Pluralsight.getPluralsightInfo.badges;
-const completedCoures = Pluralsight.getPluralsightInfo.completedCoures;
-const activtyInsights = Pluralsight.getPluralsightInfo.activityInsigts;
+import {
+  completedCoures,
+  currentlyLearning,
+  badges,
+  activityInsigts,
+} from "./index.js";
+
 const mapPluralsightData = (
   courseData,
   learningData,
@@ -51,7 +52,7 @@ const mapPluralsightData = (
     });
     badgeData(courseAnaylitcs);
   });
-  activtyInsights((callback) => {
+  activityInsigts((callback) => {
     let courseAnalytics = { hoursViewed: {}, subjectViews: [] };
     let { viewTime, subjectViews } = callback;
     let hoursViewed = `${Math.floor(

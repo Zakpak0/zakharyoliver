@@ -55,9 +55,7 @@ export default function Home() {
 
           <A href="github.com/zakpak0">
             <H2>Repositories</H2>
-            <P>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </P>
+            <P>Github profile</P>
           </A>
         </Div>
       </main>
