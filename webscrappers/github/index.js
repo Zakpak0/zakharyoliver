@@ -6,7 +6,7 @@ const getAuth = (authorizedCall) => {
   });
 };
 const getGithubInfo = {
-  getRepos: () => {
+  getRepos: (callback) => {
     const authorizedCall = (accessToken) => {
       let options = {
         hostname: "api.github.com",
@@ -26,13 +26,22 @@ const getGithubInfo = {
         });
         res.on("close", (res) => {
           body = JSON.parse(body);
-          console.log(body);
+          let mappedBody = body.map((repo) => {
+            let { html_url, full_name, language, description } = repo;
+            return (body = {
+              html_url,
+              full_name,
+              language,
+              description,
+            });
+          });
+          callback(mappedBody);
         });
       });
     };
     getAuth(authorizedCall);
   },
-  getRepoCount: () => {
+  getRepoCount: (callback) => {
     const authorizedCall = (accessToken) => {
       let options = {
         hostname: "api.github.com",
@@ -52,13 +61,14 @@ const getGithubInfo = {
         });
         res.on("close", (res) => {
           body = JSON.parse(body);
-          console.log(body);
+          let { public_repos, total_private_repos, html_url } = body;
+          callback({ public_repos, total_private_repos, html_url });
         });
       });
     };
     getAuth(authorizedCall);
   },
-  getContributions: () => {
+  getContributions: (callback) => {
     const authorizedCall = (accessToken) => {
       let queryBody = JSON.stringify({
         query: `query {
@@ -101,9 +111,10 @@ const getGithubInfo = {
         });
         res.on("close", (res) => {
           body = JSON.parse(body);
-          console.log(
-            body.data.user.contributionsCollection.contributionCalendar.weeks[0]
-          );
+          let contributions =
+            body.data.user.contributionsCollection.contributionCalendar;
+
+          callback(contributions);
         });
       });
 
@@ -114,4 +125,3 @@ const getGithubInfo = {
   },
 };
 export const { getRepos, getRepoCount, getContributions } = getGithubInfo;
-getContributions();
