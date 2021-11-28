@@ -1,6 +1,7 @@
 import http from "http";
 import url from "url";
-import { verifyId } from "./googleapis/gmail/service";
+import { verifyId } from "./googleapis/gmail/service.js";
+import { listEvents } from "./googleapis/googlecalendar/index.js";
 
 const init = () => {
   const server = http.createServer();
@@ -28,7 +29,15 @@ const init = () => {
         }
       });
     }
+    if (request.method === "GET" && parsedUrl.pathname === "listevents") {
+      response.setHeader("Content-Type", "application/json");
+      response.statusCode = 201;
+      listEvents((callback) => {
+        response.write(callback);
+      });
+    }
   });
 
   server.listen(PORT, `API is now running on port ${PORT}`);
 };
+init();
