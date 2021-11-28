@@ -25,7 +25,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-C:\Users\Zakpak0\zakharyoliver\backend\.env.json
+backend/.env.json
 frontend/.env.local
 frontend/.env.development.local
 frontend/.env.test.local
@@ -33,4 +33,5 @@ frontend/.env.production.local
 
 # vercel
 frontend/.vercel
+backend/.env.json
 backend/.env.json
