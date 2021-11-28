@@ -1,9 +1,10 @@
-import http from "http";
+import http, { request } from "http";
 import url from "url";
 import { verifyId } from "./googleapis/gmail/service.js";
 import { listEvents } from "./googleapis/googlecalendar/index.js";
+import { mapGithubData } from "./webscrappers/github/service.js";
 
-const init = () => {
+const init = async () => {
   const server = http.createServer();
   const PORT = 3200;
   server.on("request", (request, response) => {
@@ -38,6 +39,26 @@ const init = () => {
         response.write(callback);
         response.end();
       });
+    }
+    if (request.method === "GET" && parsedUrl.pathname === "/github") {
+      response.setHeader("Content-Type", "application/json");
+      response.statusCode = 201;
+      mapGithubData(
+        (repo) => {
+          response.write(repo);
+        },
+        (repoCount) => {
+          response.write(repoCount);
+        },
+        (contributions) => {
+          response.write(contributions);
+        }
+      );
+      response.end();
+    }
+    if (request.method === "GET" && parsedUrl.pathname === "/pluralsight") {
+    }
+    if (request.method === "GET" && parsedUrl.pathname === "/leetcode") {
     }
   });
 

@@ -1,6 +1,6 @@
 import { getRepos, getRepoCount, getContributions } from "./index.js";
 
-export const mapGithubData = (repos, repoCount, contributions) => {
+export const mapGithubData = async (repos, repoCount, contributions) => {
   getRepos((callback) => {
     if (repos) repos(callback);
   });
@@ -9,6 +9,7 @@ export const mapGithubData = (repos, repoCount, contributions) => {
   });
   getContributions((callback) => {
     if (contributions) {
-        contributions(callback)};
+      contributions(callback);
+    }
   });
 };

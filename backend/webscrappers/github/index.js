@@ -1,7 +1,7 @@
 import https from "https";
 import fs from "fs";
 const getAuth = (authorizedCall) => {
-  fs.readFile("../../.env.json", (err, data) => {
+  fs.readFile(".env.json", (err, data) => {
     authorizedCall(JSON.parse(data));
   });
 };
@@ -25,8 +25,8 @@ const getGithubInfo = {
           body += res;
         });
         res.on("close", (res) => {
-          body = JSON.parse(body);
-          let mappedBody = body.map((repo) => {
+          let parsedBody = JSON.parse(body);
+          let mappedBody = parsedBody.map((repo) => {
             let { html_url, full_name, language, description } = repo;
             return (body = {
               html_url,
@@ -110,8 +110,9 @@ const getGithubInfo = {
           body += res;
         });
         res.on("close", (res) => {
-          body = JSON.parse(body);
-          let contributions = body.data.user.contributionsCollection.contributionCalendar;
+          let parsedBody = JSON.parse(body);
+          let contributions =
+            parsedBody.data.user.contributionsCollection.contributionCalendar;
           callback(contributions);
         });
       });
@@ -123,6 +124,3 @@ const getGithubInfo = {
   },
 };
 export const { getRepos, getRepoCount, getContributions } = getGithubInfo;
-getContributions((callback) => {
-  console.log(callback)
-})
