@@ -1,0 +1,12 @@
+{
+  "name": "zakharyoliver-backend",
+  "version": "1.0.0",
+  "description": "Backend server to make requests",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Zakhary Oliver",
+  "license": "MIT",
+  "type": "module"
+}

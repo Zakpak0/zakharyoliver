@@ -48,33 +48,26 @@ const useGoogleCalendarService = () => {
 > `,
                     (response) => {
                       event.end.dateTime = new Date(`${response}`);
-                      console.log(event);
-                      rl.question(
-                        `Confirm? 
-  (Yes or No)
-> `,
-                        (response) => {
-                          if (response.trim().toLowerCase() == "yes") {
-                            rl.close();
-                            appointmentConfirmationEmail((callback, email) => {
-                              event.attendees = [
-                                [email].map((emails) => {
-                                  return { email: emails };
-                                }),
-                              ];
+                      rl.question("Email Address?", (response) => {
+                        event.attendees = response;
+                        console.log(event);
+                        rl.question(
+                          `Confirm? 
+    (Yes or No)
+  > `,
+                          (response) => {
+                            if (response.trim().toLowerCase() == "yes") {
+                              rl.close();
+                              appointmentConfirmationEmail(callback, email);
                               console.log(
-                                "Appointment confirmed, creating event:",
-                                callback
+                                "Appointment confirmed, creating event:"
                               );
-                              createEvent(event, (response) => {
-                                return console.log(response), process.exit();
-                              });
-                            });
-                          } else {
-                            return console.log("Cancelled");
+                            } else {
+                              return console.log("Cancelled");
+                            }
                           }
-                        }
-                      );
+                        );
+                      });
                     }
                   );
                 }
@@ -86,5 +79,4 @@ const useGoogleCalendarService = () => {
     }
   );
 };
-useGoogleCalendarService();
 export default useGoogleCalendarService;
