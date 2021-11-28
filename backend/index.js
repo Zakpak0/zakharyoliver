@@ -5,7 +5,7 @@ import { listEvents } from "./googleapis/googlecalendar/index.js";
 import { mapGithubData } from "./webscrappers/github/service.js";
 import { mapLeetcodeData } from "./webscrappers/leetcode/service.js";
 import { mapPluralsightData } from "./webscrappers/pluralsight/service.js";
-
+import { useGoogleCalendarService } from "./googleapis/googlecalendar/service.js";
 const init = async () => {
   const server = http.createServer();
   const PORT = 3200;
@@ -21,6 +21,7 @@ const init = async () => {
       verifyId(id, (callback) => {
         if (callback) {
           response.setHeader("Content-Type", "text/html", "charset=utf-8");
+          response.setHeader("Access-Control-Allow-Origin", "*");
           response.statusCode = 201;
           response.write(`
                         <html>
@@ -43,6 +44,7 @@ const init = async () => {
     }
     if (request.method === "GET" && parsedUrl.pathname === "/github") {
       response.setHeader("Content-Type", "application/json");
+      response.setHeader("Access-Control-Allow-Origin", "*");
       response.statusCode = 201;
       let responseData = [];
       let timeout = setTimeout(() => {
@@ -78,6 +80,7 @@ const init = async () => {
     }
     if (request.method === "GET" && parsedUrl.pathname === "/pluralsight") {
       response.setHeader("Content-Type", "application/json");
+      response.setHeader("Access-Control-Allow-Origin", "*");
       response.statusCode = 201;
       let responseData = [];
       let timeout = setTimeout(() => {
@@ -121,6 +124,7 @@ const init = async () => {
     }
     if (request.method === "GET" && parsedUrl.pathname === "/leetcode") {
       response.setHeader("Content-Type", "application/json");
+      response.setHeader("Access-Control-Allow-Origin", "*");
       response.statusCode = 201;
       let responseData = [];
       let timeout = setTimeout(() => {
@@ -140,6 +144,10 @@ const init = async () => {
       request.method === "POST" &&
       parsedUrl.pathname === "/makeappointment"
     ) {
+      console.log(request.headers);
+      useGoogleCalendarService(body, (callback) => {
+        console.log(callback);
+      });
     }
   });
 

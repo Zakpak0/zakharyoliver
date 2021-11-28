@@ -2,7 +2,7 @@ import { listEvents, createEvent } from "./index.js";
 import appointmentConfirmationEmail from "../gmail/service.js";
 import readline from "readline";
 
-const useGoogleCalendarService = () => {
+export const useGoogleCalendarServiceRl = () => {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -79,4 +79,8 @@ const useGoogleCalendarService = () => {
     }
   );
 };
-export default useGoogleCalendarService;
+export const useGoogleCalendarService = (body, reponse) => {
+  appointmentConfirmationEmail(email, body, (callback) => {
+    reponse(callback);
+  });
+};

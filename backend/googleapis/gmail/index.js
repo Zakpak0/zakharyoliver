@@ -94,6 +94,7 @@ export const sendEmail = (html, email, callback) => {
       `Subject: ${utf8Subject}`,
       "",
       `${html}`,
+      `body: ${body}`,
     ];
     const message = messageParts.join("\n");
 
@@ -114,7 +115,7 @@ export const sendEmail = (html, email, callback) => {
       },
       (err, res) => {
         callback(err);
-        callback(res, email);
+        callback(res, err);
       }
     );
   };

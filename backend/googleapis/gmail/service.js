@@ -1,22 +1,17 @@
 import { sendEmail } from "./index.js";
-import http from "http";
-import readline from "readline";
 
 const createRandomID = Math.floor(Math.random(400 * 15));
 
-const appointmentConfirmationEmail = (callback, email) => {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
+const appointmentConfirmationEmail = (email, body, callback) => {
   if (email.length) {
-    sendEmail(html, email, (response) => {
-      console.log(response);
+    sendEmail(html, email, body, (response) => {
+      callback(response);
     });
   }
   let html = `
   <div>
       <h1>Click Here to Confirm</h1>
+      ${body}
       <button>
       <a
       href="http://192.168.1.14:3200/confirmappointment?id=${createRandomID}"
