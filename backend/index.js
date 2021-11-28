@@ -1,8 +1,10 @@
-import http, { request } from "http";
+import http from "http";
 import url from "url";
 import { verifyId } from "./googleapis/gmail/service.js";
 import { listEvents } from "./googleapis/googlecalendar/index.js";
 import { mapGithubData } from "./webscrappers/github/service.js";
+import { mapLeetcodeData } from "./webscrappers/leetcode/service.js";
+import { mapPluralsightData } from "./webscrappers/pluralsight/service.js";
 
 const init = async () => {
   const server = http.createServer();
@@ -32,7 +34,6 @@ const init = async () => {
       });
     }
     if (request.method === "GET" && parsedUrl.pathname === "/listevents") {
-      console.log("here");
       response.setHeader("Content-Type", "application/json");
       response.statusCode = 201;
       listEvents((callback) => {
@@ -43,22 +44,97 @@ const init = async () => {
     if (request.method === "GET" && parsedUrl.pathname === "/github") {
       response.setHeader("Content-Type", "application/json");
       response.statusCode = 201;
+      let responseData = [];
+      let timeout = setTimeout(() => {
+        response.write(JSON.stringify(responseData));
+        response.end();
+      }, 10000);
       mapGithubData(
         (repo) => {
-          response.write(repo);
+          responseData.push(repo);
+          if (responseData.length == 3) {
+            clearTimeout(timeout);
+            response.write(JSON.stringify(responseData));
+            response.end();
+          }
         },
         (repoCount) => {
-          response.write(repoCount);
+          responseData.push(repoCount);
+          if (responseData.length == 3) {
+            clearTimeout(timeout);
+            response.write(JSON.stringify(responseData));
+            response.end();
+          }
         },
         (contributions) => {
-          response.write(contributions);
+          responseData.push(contributions);
+          if (responseData.length == 3) {
+            clearTimeout(timeout);
+            response.write(JSON.stringify(responseData));
+            response.end();
+          }
         }
       );
-      response.end();
     }
     if (request.method === "GET" && parsedUrl.pathname === "/pluralsight") {
+      response.setHeader("Content-Type", "application/json");
+      response.statusCode = 201;
+      let responseData = [];
+      let timeout = setTimeout(() => {
+        response.write(JSON.stringify(responseData));
+        response.end();
+      }, 10000);
+      mapPluralsightData(
+        (courseData) => {
+          responseData.push(courseData);
+          if (responseData.length == 4) {
+            clearTimeout(timeout);
+            response.write(JSON.stringify(responseData));
+            response.end();
+          }
+        },
+        (learningData) => {
+          responseData.push(learningData);
+          if (responseData.length == 4) {
+            clearTimeout(timeout);
+            response.write(JSON.stringify(responseData));
+            response.end();
+          }
+        },
+        (badgeData) => {
+          responseData.push(badgeData);
+          if (responseData.length == 4) {
+            clearTimeout(timeout);
+            response.write(JSON.stringify(responseData));
+            response.end();
+          }
+        },
+        (activityData) => {
+          responseData.push(activityData);
+          if (responseData.length == 4) {
+            clearTimeout(timeout);
+            response.write(JSON.stringify(responseData));
+            response.end();
+          }
+        }
+      );
     }
     if (request.method === "GET" && parsedUrl.pathname === "/leetcode") {
+      response.setHeader("Content-Type", "application/json");
+      response.statusCode = 201;
+      let responseData = [];
+      let timeout = setTimeout(() => {
+        response.write(JSON.stringify(responseData));
+        response.end();
+      }, 10000);
+      mapLeetcodeData((recentSubs) => {
+        responseData.push(recentSubs);
+        if (responseData.length == 1) {
+          clearTimeout(timeout);
+          response.write(JSON.stringify(responseData));
+          response.end();
+        }
+      });
     }
   });
 
