@@ -2,10 +2,12 @@ import Head from "next/head";
 import Image from "next/image";
 import { theme, styled } from "../stitches.config";
 import styles from "../styles/Home.module.css";
+import * as AspectRatio from "@radix-ui/react-aspect-ratio";
 import PluralsightSection from "../profile_sections/PluralsightSection";
 import GithubSection from "../profile_sections/GithubSection";
 import CalendarSection from "../profile_sections/CalendarSection";
 import LeetcodeSection from "../profile_sections/LeetcodeSection";
+import { truncate } from "fs";
 export const H1 = styled("h1", {});
 export const H2 = styled("h2", {});
 export const A = styled("a", {});
@@ -13,6 +15,7 @@ export const P = styled("p", {});
 export const Button = styled("button", {});
 export const Input = styled("input", {});
 export const Div = styled("div", {});
+export const Aspect = styled(AspectRatio.Root, {})
 
 export default function Home() {
   return (
@@ -40,32 +43,30 @@ export default function Home() {
         <P>
           Schedule a appointment with me <code>/calendar</code>
         </P>
+          <Div>
+            <A href="calanderPage">
+              <H2>Calendar</H2>
+              <P>Schedule an appointment here</P>
+              <CalendarSection />
+            </A>
+            <A href="leetcode.com/Zakpak0">
+              <H2>Algorithmn</H2>
+              <P>Leet Code</P>
+              <LeetcodeSection />
+            </A>
+            <A href="pluralsight.com/zakpak0">
+              <H2>Technical Skills</H2>
+              <P>Pluralsight</P>
+              <PluralsightSection />
+            </A>
 
-        <Div>
-          <A href="calanderPage">
-            <H2>Calendar</H2>
-            <P>Schedule an appointment here</P>
-            <CalendarSection />
-          </A>
-
-          <A href="leetcode.com/Zakpak0">
-            <H2>Algorithmn</H2>
-            <P>Leet Code</P>
-            <LeetcodeSection />
-          </A>
-
-          <A href="pluralsight.com/zakpak0">
-            <H2>Technical Skills</H2>
-            <P>Pluralsight</P>
-            <PluralsightSection />
-          </A>
-
-          <A href="github.com/zakpak0">
-            <H2>Repositories</H2>
-            <P>Github profile</P>
-            <GithubSection />
-          </A>
-        </Div>
+            <A href="github.com/zakpak0">
+              <H2>Repositories</H2>
+              <P>Github profile</P>
+              <GithubSection />
+            </A>
+          </Div>
+    
       </main>
 
       <footer className={styles.footer}>

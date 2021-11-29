@@ -127,6 +127,7 @@ export const createEvent = (event, callback) => {
 
 export const listEvents = (callback) => {
   const service = (auth) => {
+    console.log(auth);
     const calendar = google.calendar({ version: "v3", auth });
     calendar.events.list(
       {

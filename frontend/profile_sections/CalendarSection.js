@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import http from "http";
-import { H1, H2, A, P, Button, Input, Div } from "../pages/index.js";
+import { H1, H2, A, P, Button, Input, Div } from "../pages/index.tsx";
 const CalendarSection = () => {
   const [body, setBody] = useState();
   useEffect(() => {
@@ -14,7 +14,6 @@ const CalendarSection = () => {
       });
     });
   }, []);
-  console.log(body);
   return <div>{JSON.stringify(body)}</div>;
 };
 

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import http from "http";
-import { H1, H2, A, P, Button, Input, Div } from "../pages/index.js";
+import { H1, H2, A, P, Button, Input, Div } from "../pages/index.tsx";
 const LeetcodeSection = () => {
-  const [body, setBody] = useState();
+  const [recent_subs, set_recent_subs] = useState();
   useEffect(() => {
     http.get("http://localhost:3200/leetcode", (response) => {
       let body = "";
@@ -10,12 +10,17 @@ const LeetcodeSection = () => {
         body += data;
       });
       response.on("close", (form) => {
-        setBody(JSON.parse(body));
+        let data = JSON.parse(body);
+        data.map((point) => {
+          if (point.Recent_Subs) {
+            set_recent_subs(point.Recent_Subs);
+          }
+        });
+        set_recent_subs(JSON.parse(body));
       });
     });
   }, []);
-  console.log(body);
-  return <div>{JSON.stringify(body)}</div>;
+  return <div>Recent Subs: {JSON.stringify(recent_subs)}</div>;
 };
 
 export default LeetcodeSection;
