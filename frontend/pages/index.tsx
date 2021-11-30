@@ -7,7 +7,6 @@ import PluralsightSection from "../profile_sections/PluralsightSection";
 import GithubSection from "../profile_sections/GithubSection";
 import CalendarSection from "../profile_sections/CalendarSection";
 import LeetcodeSection from "../profile_sections/LeetcodeSection";
-import { truncate } from "fs";
 export const H1 = styled("h1", {});
 export const H2 = styled("h2", {});
 export const A = styled("a", {});
@@ -15,10 +14,23 @@ export const P = styled("p", {});
 export const Button = styled("button", {});
 export const Input = styled("input", {});
 export const Div = styled("div", {});
+export const Main = styled("main", {})
 export const Aspect = styled(AspectRatio.Root, {})
 
 export default function Home() {
+  const A1 = styled("a",{
+    margin: "1rem",
+    padding: "1.5rem",
+    textAlign: "left",
+    color: "inherit",
+    textDecoration: "none",
+    border: "1px solid #eaeaea",
+    borderRadius: "10px",
+    transition: "color 0.15s ease, border-color 0.15s ease",
+    maxWidth: "max-content"
+  })
   return (
+    <>
     <div className={styles.container}>
       <Head>
         <title>Zakhary Oliver</title>
@@ -32,7 +44,18 @@ export default function Home() {
         />
       </Head>
 
-      <main>
+      <Main
+          css={{
+            border: "solid",
+            minHeight: '1000vh',
+            padding: "4rem 0",
+            flex: "1",
+            display: "flex",
+            flexDirection: "column",
+            justifyItems: "center",
+            alignItems: "center"
+        }}
+      >
         <H1>
           Welcome to{" "}
           <a href="https://www.linkedin.com/in/zakhary-oliver-81141b211/">
@@ -43,44 +66,41 @@ export default function Home() {
         <P>
           Schedule a appointment with me <code>/calendar</code>
         </P>
-          <Div>
-            <A href="calanderPage">
-              <H2>Calendar</H2>
+          <Div
+            css={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              alignItems: "center",
+              justifyContent: "center",
+              flexWrap: "wrap",
+              maxWidth: "max-content"
+          }}
+          >
+            
+            <A1 href="calanderPage">
+                <H2>Calendar</H2>
               <P>Schedule an appointment here</P>
               <CalendarSection />
-            </A>
-            <A href="leetcode.com/Zakpak0">
-              <H2>Algorithmn</H2>
+            </A1>
+            <A1 href="leetcode.com/Zakpak0">
+              <H2>Problem Solving Skills</H2>
               <P>Leet Code</P>
-              <LeetcodeSection />
-            </A>
-            <A href="pluralsight.com/zakpak0">
+              {/* <LeetcodeSection /> */}
+                </A1>
+            <A1 href="pluralsight.com/zakpak0">
               <H2>Technical Skills</H2>
               <P>Pluralsight</P>
-              <PluralsightSection />
-            </A>
-
-            <A href="github.com/zakpak0">
+              {/* <PluralsightSection /> */}
+            </A1>
+            <A1 href="github.com/zakpak0">
               <H2>Repositories</H2>
               <P>Github profile</P>
-              <GithubSection />
-            </A>
+              {/* <GithubSection /> */}
+            </A1>
           </Div>
     
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
+      </Main>
     </div>
+    </>
   );
 }

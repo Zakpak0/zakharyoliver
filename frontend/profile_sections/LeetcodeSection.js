@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import http from "http";
 import { H1, H2, A, P, Button, Input, Div } from "../pages/index.tsx";
 const LeetcodeSection = () => {
@@ -16,11 +17,14 @@ const LeetcodeSection = () => {
             set_recent_subs(point.Recent_Subs);
           }
         });
-        set_recent_subs(JSON.parse(body));
       });
     });
   }, []);
-  return <div>Recent Subs: {JSON.stringify(recent_subs)}</div>;
+  return (
+    <>
+      <Div css={{}}>Recent Subs: {JSON.stringify(recent_subs)}</Div>
+    </>
+  );
 };
 
 export default LeetcodeSection;

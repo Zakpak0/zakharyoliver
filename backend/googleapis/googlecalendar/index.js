@@ -146,42 +146,45 @@ export const listEvents = (callback) => {
           if (!items.length) {
             callback(JSON.stringify("No upcoming events"));
           } else {
-            items.map((appointment) => {
+            let dates = items.map((appointment) => {
               let start = {
-                date: new Date(appointment.start.dateTime)
-                  .toDateString()
-                  .split(" "),
+                date: {
+                  day: new Date(appointment.start.dateTime).getDate(),
+                  month: new Date(appointment.start.dateTime).getMonth() + 1,
+                  year: new Date(appointment.start.dateTime).getFullYear(),
+                  date: `${new Date(appointment.start.dateTime).getMonth() +
+                    1}/${new Date(
+                    appointment.start.dateTime
+                  ).getDate()}/${new Date(
+                    appointment.start.dateTime
+                  ).getFullYear()}`,
+                },
                 time: new Date(appointment.start.dateTime)
                   .toLocaleTimeString()
                   .split(" ")[0],
               };
               let end = {
-                date: new Date(appointment.end.dateTime)
-                  .toDateString()
-                  .split(" "),
+                date: {
+                  day: new Date(appointment.end.dateTime).getDate(),
+                  month: new Date(appointment.end.dateTime).getMonth() + 1,
+                  year: new Date(appointment.end.dateTime).getFullYear(),
+                  date: `${new Date(appointment.end.dateTime).getMonth() +
+                    1}/${new Date(
+                    appointment.end.dateTime
+                  ).getDate()}/${new Date(
+                    appointment.end.dateTime
+                  ).getFullYear()}`,
+                },
                 time: new Date(appointment.end.dateTime)
                   .toLocaleTimeString()
                   .split(" ")[0],
               };
-              return callback(
-                JSON.stringify({
-                  start: {
-                    day: start.date[0],
-                    month: start.date[1],
-                    date: start.date[2],
-                    year: start.date[3],
-                    time: start.time,
-                  },
-                  end: {
-                    day: end.date[0],
-                    month: end.date[1],
-                    date: end.date[2],
-                    year: end.date[3],
-                    time: end.time,
-                  },
-                })
-              );
+              return {
+                start,
+                end,
+              };
             });
+            callback(JSON.stringify(dates));
           }
         } else {
           console.log("No upcoming events found.");
