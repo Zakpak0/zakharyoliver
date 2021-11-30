@@ -77,11 +77,11 @@ export default function Home() {
           }}
           >
             
-            <A1 href="calanderPage">
+            {/* <A1 href="calanderPage"> */}
                 <H2>Calendar</H2>
               <P>Schedule an appointment here</P>
               <CalendarSection />
-            </A1>
+            {/* </A1> */}
             <A1 href="leetcode.com/Zakpak0">
               <H2>Problem Solving Skills</H2>
               <P>Leet Code</P>

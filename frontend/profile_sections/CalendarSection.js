@@ -7,8 +7,64 @@ import {
   DoubleArrowRightIcon,
 } from "@radix-ui/react-icons";
 const CalendarSection = () => {
+  const [events, set_events] = useState();
+  const [date, set_date] = useState({
+    currentDate: new Date(),
+    day: new Date().getDay(),
+    month: new Date().getMonth(),
+    year: new Date().getFullYear(),
+  });
+  const [appointments, set_appointments] = useState();
+  const [booked_dates, set_booked_dates] = useState();
   let color;
-  let currentDate = new Date();
+  let months = {
+    1: "Jan",
+    2: "Feb",
+    3: "Mar",
+    4: "Apr",
+    5: "May",
+    6: "Jun",
+    7: "Jul",
+    8: "Aug",
+    9: "Sep",
+    10: "Oct",
+    11: "Nov",
+    12: "Dec",
+  };
+  let { currentDate, day, month, year } = date;
+  const previousMonth = () => {
+    if (month == 0) {
+      (month = 11), (day = 1), (year -= 1);
+    } else {
+      day = 1;
+      month -= 1;
+    }
+    let newDate = new Date(`${month}/ ${day} / ${year}`);
+    set_date({
+      currentDate: newDate,
+      day: day,
+      month: month,
+      year: year,
+    });
+    console.log("date now", date);
+  };
+
+  const nextMonth = () => {
+    if (month == 11) {
+      (month = 0), (day = 1), (year += 1);
+    } else {
+      day = 1;
+      month += 1;
+    }
+    let newDate = new Date(`${month}/ ${day} / ${year}`);
+    set_date({
+      currentDate: newDate,
+      day: day,
+      month: month,
+      year: year,
+    });
+    console.log("date now", date);
+  };
   const getDaysInMonth = () => {
     let days = new Date(
       currentDate.getFullYear(),
@@ -45,6 +101,9 @@ const CalendarSection = () => {
     width: "max-content",
     padding: "10px 10px 10px 10px",
   });
+  const Button = styled("button", {
+    display: "contents",
+  });
   const LeftIcon = styled(DoubleArrowLeftIcon, {
     margin: "3px 10px 50px 5px",
   });
@@ -65,9 +124,6 @@ const CalendarSection = () => {
     display: "grid",
     gridTemplateColumns: "2fr 2fr 2fr 2fr 2fr 2fr 2fr",
   });
-  const [events, set_events] = useState();
-  const [appointments, set_appointments] = useState();
-  const [booked_dates, set_booked_dates] = useState();
   const [calendar, set_calendar] = useState(
     getDaysInMonth().map((calendar) => {
       let { day, date } = calendar;
@@ -140,7 +196,7 @@ const CalendarSection = () => {
         })
       );
     }
-  }, [events]);
+  }, [events, date]);
   useEffect(() => {
     http.get("http://localhost:3200/listevents", (response) => {
       let body = "";
@@ -153,15 +209,18 @@ const CalendarSection = () => {
       });
     });
   }, []);
-  console.log(events);
   return (
     <>
       <CalendarContainer>
-        <DateString>{currentDate.toDateString()}</DateString>
+        <DateString>{date ? months[month] : ""}</DateString>
         <CalendarBody>
-          <LeftIcon />
+          <Button onClick={() => previousMonth()}>
+            <LeftIcon />
+          </Button>
           <CalanderGrid>{calendar}</CalanderGrid>
-          <RightIcon />
+          <Button onClick={() => nextMonth()}>
+            <RightIcon />
+          </Button>
         </CalendarBody>
       </CalendarContainer>
     </>
