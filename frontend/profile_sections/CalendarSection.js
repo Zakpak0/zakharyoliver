@@ -7,6 +7,7 @@ import {
   DoubleArrowRightIcon,
 } from "@radix-ui/react-icons";
 const CalendarSection = () => {
+  const [loading, set_loading] = useState(true);
   const [events, set_events] = useState();
   const [date, set_date] = useState({
     currentDate: new Date(),
@@ -16,20 +17,35 @@ const CalendarSection = () => {
   });
   const [appointments, set_appointments] = useState();
   const [booked_dates, set_booked_dates] = useState();
+  useEffect(async () => {
+    http.get("http://localhost:3200/listevents", (response) => {
+      let body = "";
+      response.on("data", (data) => {
+        body += data;
+      });
+      response.on("close", (form) => {
+        let data = JSON.parse(body);
+        console.log("data:", typeof data);
+        if (data && typeof data == "object") {
+          set_events(data);
+        }
+      });
+    });
+  }, []);
   let color;
   let months = {
-    1: "Jan",
-    2: "Feb",
-    3: "Mar",
-    4: "Apr",
-    5: "May",
-    6: "Jun",
-    7: "Jul",
-    8: "Aug",
-    9: "Sep",
-    10: "Oct",
-    11: "Nov",
-    12: "Dec",
+    0: "Jan",
+    1: "Feb",
+    2: "Mar",
+    3: "Apr",
+    4: "May",
+    5: "Jun",
+    6: "Jul",
+    7: "Aug",
+    8: "Sep",
+    9: "Oct",
+    10: "Nov",
+    11: "Dec",
   };
   let { currentDate, day, month, year } = date;
   const previousMonth = () => {
@@ -39,7 +55,7 @@ const CalendarSection = () => {
       day = 1;
       month -= 1;
     }
-    let newDate = new Date(`${month}/ ${day} / ${year}`);
+    let newDate = new Date(`${month + 1}/ ${day} / ${year}`);
     set_date({
       currentDate: newDate,
       day: day,
@@ -56,7 +72,7 @@ const CalendarSection = () => {
       day = 1;
       month += 1;
     }
-    let newDate = new Date(`${month}/ ${day} / ${year}`);
+    let newDate = new Date(`${month + 1}/ ${day} / ${year}`);
     set_date({
       currentDate: newDate,
       day: day,
@@ -97,8 +113,8 @@ const CalendarSection = () => {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    height: "max-content",
-    width: "max-content",
+    height: "250px",
+    width: "550px",
     padding: "10px 10px 10px 10px",
   });
   const Button = styled("button", {
@@ -152,72 +168,78 @@ const CalendarSection = () => {
     })
   );
   useEffect(() => {
-    if (events) {
-      let days = events.map((appointment) => {
+    if (
+      events &&
+      typeof events == "object" &&
+      typeof booked_dates == "object"
+    ) {
+      set_loading(false);
+    }
+  }, [events, appointments, booked_dates]);
+  useEffect(async () => {
+    console.log(typeof events);
+    if (events && typeof events == "object") {
+      console.log(typeof events);
+      let days = await events.map((appointment) => {
         let { day, date } = appointment.start.date;
         return date;
       });
+      console.log(days);
       set_appointments(days);
       let booked = {};
-      if (appointments) {
-        for (let dates of appointments) {
-          if (!booked[dates]) {
-            booked[dates] = 0;
-          }
-          booked[dates] += 1;
+      console.log("appointments:", typeof appointments);
+      console.log("appointments:", typeof appointments);
+      for (let dates of days) {
+        if (!booked[dates]) {
+          booked[dates] = 0;
         }
-        set_booked_dates(booked);
+        booked[dates] += 1;
       }
-      return set_calendar(
-        getDaysInMonth().map((calendar) => {
-          let { day, date } = calendar;
-          if (booked_dates)
-            if (!booked_dates[date]) {
-              color = "White";
-            } else if (booked_dates[date] <= 3) {
-              color = "LawnGreen";
-            } else if (booked_dates[date] <= 5) {
-              color = "Yellow";
-            } else if (booked_dates[date] > 6) {
-              color = "Salmon";
-            }
-          return (
-            <DateIcon
-              css={{
-                borderColor: "DarkSeaGreen",
-                backgroundColor: color,
-              }}
-              key={day}
-              value={day}
-            >
-              {day}
-            </DateIcon>
-          );
-        })
-      );
+      set_booked_dates(booked);
+      if (booked_dates && typeof booked_dates == "object") {
+        return (
+          set_calendar(
+            getDaysInMonth().map((calendar) => {
+              let { day, date } = calendar;
+              if (booked_dates)
+                if (!booked_dates[date]) {
+                  color = "White";
+                } else if (booked_dates[date] <= 3) {
+                  color = "LawnGreen";
+                } else if (booked_dates[date] <= 5) {
+                  color = "Yellow";
+                } else if (booked_dates[date] > 6) {
+                  color = "Salmon";
+                }
+              return (
+                <DateIcon
+                  css={{
+                    borderColor: "DarkSeaGreen",
+                    backgroundColor: color,
+                  }}
+                  key={day}
+                  value={day}
+                >
+                  {day}
+                </DateIcon>
+              );
+            })
+          ) && set_loading(false)
+        );
+      }
     }
-  }, [events, date]);
-  useEffect(() => {
-    http.get("http://localhost:3200/listevents", (response) => {
-      let body = "";
-      response.on("data", (data) => {
-        body += data;
-      });
-      response.on("close", (form) => {
-        let data = JSON.parse(body);
-        set_events(data);
-      });
-    });
-  }, []);
+  }, [events, date, loading]);
   return (
     <>
       <CalendarContainer>
-        <DateString>{date ? months[month] : ""}</DateString>
+        <DateString>
+          {date ? `${months[month]} ${year.toString()}` : ""}
+        </DateString>
         <CalendarBody>
           <Button onClick={() => previousMonth()}>
             <LeftIcon />
           </Button>
-          <CalanderGrid>{calendar}</CalanderGrid>
+          <CalanderGrid>{!loading ? calendar : "loading"}</CalanderGrid>
           <Button onClick={() => nextMonth()}>
             <RightIcon />
           </Button>

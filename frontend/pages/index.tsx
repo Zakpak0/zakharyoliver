@@ -29,6 +29,18 @@ export default function Home() {
     transition: "color 0.15s ease, border-color 0.15s ease",
     maxWidth: "max-content"
   })
+  const NoA = styled("div",{
+    margin: "1rem",
+    padding: "1.5rem",
+    textAlign: "left",
+    color: "inherit",
+    textDecoration: "none",
+    border: "1px solid #eaeaea",
+    borderRadius: "10px",
+    transition: "color 0.15s ease, border-color 0.15s ease",
+    height: "max-content",
+    width: "max-content"
+  })
   return (
     <>
     <div className={styles.container}>
@@ -77,11 +89,11 @@ export default function Home() {
           }}
           >
             
-            {/* <A1 href="calanderPage"> */}
+            <NoA >
                 <H2>Calendar</H2>
               <P>Schedule an appointment here</P>
               <CalendarSection />
-            {/* </A1> */}
+            </NoA>
             <A1 href="leetcode.com/Zakpak0">
               <H2>Problem Solving Skills</H2>
               <P>Leet Code</P>

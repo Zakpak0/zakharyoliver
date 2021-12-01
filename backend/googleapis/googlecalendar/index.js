@@ -125,72 +125,92 @@ export const createEvent = (event, callback) => {
   getGoogleServiceWithAuth(service);
 };
 
-export const listEvents = (callback) => {
+export const listEvents = (callbackData) => {
   const service = (auth) => {
-    console.log(auth);
     const calendar = google.calendar({ version: "v3", auth });
-    calendar.events.list(
-      {
-        calendarId: "primary",
-        timeMin: new Date(),
-        maxResults: 30,
-        singleEvents: true,
-        orderBy: "startTime",
-      },
-      (err, res) => {
-        if (err) return console.log("The API returned an error: " + err);
-        if (res) {
-          let {
-            data: { items },
-          } = res;
-          if (!items.length) {
-            callback(JSON.stringify("No upcoming events"));
+    const callCalendar = (calendarId, callback) => {
+      calendar.events.list(
+        {
+          calendarId: calendarId,
+          timeMin: new Date(),
+          singleEvents: true,
+        },
+        (err, res) => {
+          if (err) return console.log("The API returned an error: " + err);
+          if (res) {
+            console.log(res);
+            let {
+              data: { items },
+            } = res;
+            if (!items.length) {
+              callback(JSON.stringify("No upcoming events"));
+            } else {
+              let dates = items.map((appointment) => {
+                let start = {
+                  date: {
+                    day: new Date(appointment.start.dateTime).getDate(),
+                    month: new Date(appointment.start.dateTime).getMonth() + 1,
+                    year: new Date(appointment.start.dateTime).getFullYear(),
+                    date: `${new Date(appointment.start.dateTime).getMonth() +
+                      1}/${new Date(
+                      appointment.start.dateTime
+                    ).getDate()}/${new Date(
+                      appointment.start.dateTime
+                    ).getFullYear()}`,
+                  },
+                  time: new Date(appointment.start.dateTime)
+                    .toLocaleTimeString()
+                    .split(" ")[0],
+                };
+                let end = {
+                  date: {
+                    day: new Date(appointment.end.dateTime).getDate(),
+                    month: new Date(appointment.end.dateTime).getMonth() + 1,
+                    year: new Date(appointment.end.dateTime).getFullYear(),
+                    date: `${new Date(appointment.end.dateTime).getMonth() +
+                      1}/${new Date(
+                      appointment.end.dateTime
+                    ).getDate()}/${new Date(
+                      appointment.end.dateTime
+                    ).getFullYear()}`,
+                  },
+                  time: new Date(appointment.end.dateTime)
+                    .toLocaleTimeString()
+                    .split(" ")[0],
+                };
+                return {
+                  start,
+                  end,
+                };
+              });
+              callback(dates);
+            }
           } else {
-            let dates = items.map((appointment) => {
-              let start = {
-                date: {
-                  day: new Date(appointment.start.dateTime).getDate(),
-                  month: new Date(appointment.start.dateTime).getMonth() + 1,
-                  year: new Date(appointment.start.dateTime).getFullYear(),
-                  date: `${new Date(appointment.start.dateTime).getMonth() +
-                    1}/${new Date(
-                    appointment.start.dateTime
-                  ).getDate()}/${new Date(
-                    appointment.start.dateTime
-                  ).getFullYear()}`,
-                },
-                time: new Date(appointment.start.dateTime)
-                  .toLocaleTimeString()
-                  .split(" ")[0],
-              };
-              let end = {
-                date: {
-                  day: new Date(appointment.end.dateTime).getDate(),
-                  month: new Date(appointment.end.dateTime).getMonth() + 1,
-                  year: new Date(appointment.end.dateTime).getFullYear(),
-                  date: `${new Date(appointment.end.dateTime).getMonth() +
-                    1}/${new Date(
-                    appointment.end.dateTime
-                  ).getDate()}/${new Date(
-                    appointment.end.dateTime
-                  ).getFullYear()}`,
-                },
-                time: new Date(appointment.end.dateTime)
-                  .toLocaleTimeString()
-                  .split(" ")[0],
-              };
-              return {
-                start,
-                end,
-              };
-            });
-            callback(JSON.stringify(dates));
+            console.log("No upcoming events found.");
           }
-        } else {
-          console.log("No upcoming events found.");
         }
+      );
+    };
+    let bothItems = [];
+    let i = 0;
+    callCalendar("ZakharyOliver808@gmail.com", (callback) => {
+      for (let items of callback) {
+        bothItems.push(items);
       }
-    );
+      i++;
+      if (i == 2) {
+        callbackData(JSON.stringify(bothItems));
+      }
+    });
+    callCalendar("primary", (callback) => {
+      for (let items of callback) {
+        bothItems.push(items);
+      }
+      i++;
+      if (i == 2) {
+        callbackData(JSON.stringify(bothItems));
+      }
+    });
   };
   getGoogleServiceWithAuth(service);
 };
