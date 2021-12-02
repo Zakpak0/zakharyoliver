@@ -85,7 +85,8 @@ export default function Home() {
               alignItems: "center",
               justifyContent: "center",
               flexWrap: "wrap",
-              maxWidth: "max-content"
+              border: "solid",
+              maxWidth: "1500px"
           }}
           >
             

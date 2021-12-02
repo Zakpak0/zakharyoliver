@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import http from "http";
-import { H1, H2, A, P, Button, Input, Div } from "../pages/index.tsx";
 import { styled } from "@stitches/react";
 import {
   DoubleArrowLeftIcon,
@@ -25,7 +24,6 @@ const CalendarSection = () => {
       });
       response.on("close", (form) => {
         let data = JSON.parse(body);
-        console.log("data:", typeof data);
         if (data && typeof data == "object") {
           set_events(data);
         }
@@ -62,7 +60,6 @@ const CalendarSection = () => {
       month: month,
       year: year,
     });
-    console.log("date now", date);
   };
 
   const nextMonth = () => {
@@ -79,7 +76,6 @@ const CalendarSection = () => {
       month: month,
       year: year,
     });
-    console.log("date now", date);
   };
   const getDaysInMonth = () => {
     let days = new Date(
@@ -177,18 +173,13 @@ const CalendarSection = () => {
     }
   }, [events, appointments, booked_dates]);
   useEffect(async () => {
-    console.log(typeof events);
     if (events && typeof events == "object") {
-      console.log(typeof events);
       let days = await events.map((appointment) => {
         let { day, date } = appointment.start.date;
         return date;
       });
-      console.log(days);
       set_appointments(days);
       let booked = {};
-      console.log("appointments:", typeof appointments);
-      console.log("appointments:", typeof appointments);
       for (let dates of days) {
         if (!booked[dates]) {
           booked[dates] = 0;

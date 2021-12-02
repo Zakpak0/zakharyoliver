@@ -143,7 +143,7 @@ export const listEvents = (callbackData) => {
               data: { items },
             } = res;
             if (!items.length) {
-              callback(JSON.stringify("No upcoming events"));
+              callback("No upcoming events");
             } else {
               let dates = items.map((appointment) => {
                 let start = {
@@ -194,21 +194,35 @@ export const listEvents = (callbackData) => {
     let bothItems = [];
     let i = 0;
     callCalendar("ZakharyOliver808@gmail.com", (callback) => {
-      for (let items of callback) {
-        bothItems.push(items);
-      }
-      i++;
-      if (i == 2) {
-        callbackData(JSON.stringify(bothItems));
+      if (callback == "No upcoming events") {
+        i++;
+        if (i == 2) {
+          callbackData(JSON.stringify(bothItems));
+        }
+      } else {
+        for (let items of callback) {
+          bothItems.push(items);
+        }
+        i++;
+        if (i == 2) {
+          callbackData(JSON.stringify(bothItems));
+        }
       }
     });
     callCalendar("primary", (callback) => {
-      for (let items of callback) {
-        bothItems.push(items);
-      }
-      i++;
-      if (i == 2) {
-        callbackData(JSON.stringify(bothItems));
+      if (callback == "No upcoming events") {
+        i++;
+        if (i == 2) {
+          callbackData(JSON.stringify(bothItems));
+        }
+      } else {
+        for (let items of callback) {
+          bothItems.push(items);
+        }
+        i++;
+        if (i == 2) {
+          callbackData(JSON.stringify(bothItems));
+        }
       }
     });
   };
