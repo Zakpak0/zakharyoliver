@@ -1,7 +1,7 @@
-import {getRecentSubs} from './index.js'
+import { getRecentSubs } from './index.js'
 
 export const mapLeetcodeData = (recentSubs) => {
-getRecentSubs((callback) => {
-    recentSubs(callback)
+    getRecentSubs((callback) => {
+        recentSubs(callback)
     })
 }

@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import http from "http";
-import { styled } from "@stitches/react";
-import {
-  DoubleArrowLeftIcon,
-  DoubleArrowRightIcon,
-} from "@radix-ui/react-icons";
+import { CalanderGrid, CalendarBody, CalendarContainer, DateIcon, DateString, RightIcon, LeftIcon, Button } from "./CalendarComponents"
+import ProgressBar from '../../components/Progress'
+import ScrollBar from "../../components/Scroll";
 const CalendarSection = () => {
   const [loading, set_loading] = useState(true);
   const [events, set_events] = useState();
+  const [progress, set_progress] = useState(0)
+  const [loading_header, set_loading_header] = useState()
   const [date, set_date] = useState({
     currentDate: new Date(),
     day: new Date().getDay(),
@@ -17,18 +17,29 @@ const CalendarSection = () => {
   const [appointments, set_appointments] = useState();
   const [booked_dates, set_booked_dates] = useState();
   useEffect(async () => {
-    http.get("http://localhost:3200/listevents", (response) => {
-      let body = "";
-      response.on("data", (data) => {
-        body += data;
-      });
-      response.on("close", (form) => {
-        let data = JSON.parse(body);
-        if (data && typeof data == "object") {
-          set_events(data);
-        }
-      });
-    });
+    http.get(
+      process.env.NEXT_PUBLIC_BACKEND_LAN + "/listevents",
+      (response) => {
+        let body = "";
+        response.on("data", (data) => {
+          body += data;
+        });
+        response.on("close", (form) => {
+          let data = JSON.parse(body);
+          if (data && typeof data == "object") {
+            set_events(data);
+          }
+        });
+      }
+    );
+    set_loading_header("Calling the google calendar api")
+    setTimeout(() => { set_progress(25) }, 500)
+    setTimeout(() => { set_progress(50), set_loading_header("Sorting the events on my calendar") }, 1000)
+    setTimeout(() => { set_progress(75), set_loading_header("Setting the events on this calendar") }, 1500)
+    setTimeout(() => { set_progress(90), set_loading_header("Making the data look good screen") }, 2000)
+
+
+
   }, []);
   let color;
   let months = {
@@ -95,47 +106,7 @@ const CalendarSection = () => {
     }
     return dates;
   };
-  const DateString = styled("h3", {});
-  const CalendarContainer = styled("div", {
-    display: "flex",
-    flexDirection: "column",
-    border: "solid",
-    borderColor: "AliceBlue",
-    justifyContent: "center",
-    alignItems: "center",
-  });
-  const CalendarBody = styled("div", {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "250px",
-    width: "550px",
-    padding: "10px 10px 10px 10px",
-  });
-  const Button = styled("button", {
-    display: "contents",
-  });
-  const LeftIcon = styled(DoubleArrowLeftIcon, {
-    margin: "3px 10px 50px 5px",
-  });
-  const RightIcon = styled(DoubleArrowRightIcon, {
-    margin: "3px 5px 50px 10px",
-  });
-  const DateIcon = styled("p", {
-    display: "flex",
-    border: "solid",
-    borderRadius: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "40px",
-    height: "40px",
-    margin: "3px 10px 3px 10px",
-  });
-  const CalanderGrid = styled("div", {
-    display: "grid",
-    gridTemplateColumns: "2fr 2fr 2fr 2fr 2fr 2fr 2fr",
-  });
+
   const [calendar, set_calendar] = useState(
     getDaysInMonth().map((calendar) => {
       let { day, date } = calendar;
@@ -169,9 +140,17 @@ const CalendarSection = () => {
       typeof events == "object" &&
       typeof booked_dates == "object"
     ) {
-      set_loading(false);
+      if (progress == 90) {
+        setTimeout(() => {
+          set_progress(100)
+          set_loading_header("Cleaning up for a smoothe transition")
+          setTimeout(() => {
+            set_loading(false)
+          }, 1500)
+        }, 500)
+      }
     }
-  }, [events, appointments, booked_dates]);
+  }, [events, appointments, booked_dates, progress]);
   useEffect(async () => {
     if (events && typeof events == "object") {
       let days = await events.map((appointment) => {
@@ -215,27 +194,43 @@ const CalendarSection = () => {
                 </DateIcon>
               );
             })
-          ) && set_loading(false)
-        );
+          )
+        )
       }
     }
-  }, [events, date, loading]);
+  }, [events, date, progress]);
+  useEffect(() => {
+
+
+
+  })
   return (
     <>
-      <CalendarContainer>
-        <DateString>
-          {date ? `${months[month]} ${year.toString()}` : ""}
-        </DateString>
-        <CalendarBody>
-          <Button onClick={() => previousMonth()}>
-            <LeftIcon />
-          </Button>
-          <CalanderGrid>{!loading ? calendar : "loading"}</CalanderGrid>
-          <Button onClick={() => nextMonth()}>
-            <RightIcon />
-          </Button>
-        </CalendarBody>
-      </CalendarContainer>
+      <ScrollBar
+        content={
+
+
+          <CalendarContainer>{loading ? <ProgressBar
+            progress={progress}
+            loading_header={loading_header}
+          /> :
+            <>
+              <DateString>
+                {date ? `${months[month]} ${year.toString()}` : ""}
+              </DateString>
+              <CalendarBody>
+                <Button onClick={() => previousMonth()}>
+                  <LeftIcon />
+                </Button>
+                <CalanderGrid>{calendar}</CalanderGrid>
+                <Button onClick={() => nextMonth()}>
+                  <RightIcon />
+                </Button>
+              </CalendarBody>
+            </>}</CalendarContainer>
+
+        }
+      />
     </>
   );
 };
