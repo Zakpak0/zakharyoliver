@@ -1,3 +1,4 @@
+import { yellowA } from '@radix-ui/colors';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import { styled } from '@stitches/react';
 const SCROLLBAR_SIZE = 8;
@@ -53,11 +54,16 @@ const ScrollAreaCorner = styled(ScrollArea.Corner, {
     background: "Black",
 });
 
-const ScrollBar = ({ content, height, width }) => {
+const ScrollBar = ({ content, height, width, header }) => {
 
     return (
         <>
-            <ScrollAreaRoot>
+            <ScrollAreaRoot
+                css={{
+                    background: yellowA.yellowA9
+                }}
+            >
+                {header}
                 <ScrollAreaViewport css={{
                     backgroundColor: 'white',
                     height: height || 320,

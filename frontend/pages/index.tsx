@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { theme, styled } from "../stitches.config";
+import { blackA, lime, limeA, mint } from "@radix-ui/colors";
 import styles from "../styles/Home.module.css";
 import * as AspectRatio from "@radix-ui/react-aspect-ratio";
 import PluralsightSection from "../profile_sections/Pluralsight/PluralsightSection.js";
@@ -22,7 +23,8 @@ export default function Home() {
     transition: "color 0.15s ease, border-color 0.15s ease",
     maxWidth: "max-content"
   })
-  const NoA = styled("div",{
+  const NoA = styled("div", {
+    background: `linear-gradient(174.59deg, ${mint.mint9} -38.91%, ${mint.mint12} 95.67%)`,
     margin: "1rem",
     padding: "1.5rem",
     textAlign: "left",
@@ -36,6 +38,7 @@ export default function Home() {
   })
   const Main = styled("main", {
     border: "1px solid #eaeaea",
+    background: "Black",
     borderRadius: "10px",
     transition: "color 0.15s ease, border-color 0.15s ease",
     minHeight: '1000vh',
@@ -48,7 +51,12 @@ export default function Home() {
   })
   const Div = styled("div", {
     display: "grid",
-    gridTemplateColumns: "1fr 1fr",
+    gridTemplateColumns: "1fr 1fr 1fr 1fr",
+    gridTemplateRows: "auto",
+    gridTemplateAreas: `". calendar leetcode . "
+    ". pluralsight pluralsight ."
+    ". github github ."
+    `,
     alignItems: "center",
     justifyContent: "center",
     flexWrap: "wrap",
@@ -82,22 +90,38 @@ export default function Home() {
         </P>
           <Div>
             
-            <NoA >
+            <NoA
+              css={{
+              gridArea: "calendar"
+            }}
+            >
                 <H2>Calendar</H2>
               <P>Schedule an appointment here</P>
-              <CalendarSection />
+              {/* <CalendarSection /> */}
             </NoA>
-            <NoA >
+            <NoA
+             css={{
+              gridArea: "leetcode"
+            }}
+            >
               <H2>Problem Solving Skills</H2>
               <P>Leet Code</P>
               <LeetcodeSection />
                 </NoA>
-            <NoA>
+            <NoA
+             css={{
+              gridArea: "pluralsight"
+            }}
+            >
               <H2>Technical Skills</H2>
               <P>Pluralsight</P>
               <PluralsightSection />
             </NoA>
-            <A1 href="github.com/zakpak0">
+            <A1
+              css={{
+              gridArea: "github"
+            }}
+            >
               <H2>Repositories</H2>
               <P>Github profile</P>
               {/* <GithubSection /> */}
