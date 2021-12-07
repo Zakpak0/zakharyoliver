@@ -3,7 +3,7 @@ import http from "http";
 import { CalanderGrid, CalendarBody, CalendarContainer, DateIcon, DateString, RightIcon, LeftIcon, Button } from "./CalendarComponents"
 import ProgressBar from '../../components/Progress'
 import ScrollBar from "../../components/Scroll";
-const CalendarSection = () => {
+const CalendarSection = ({ themeMode }) => {
   const [loading, set_loading] = useState(true);
   const [events, set_events] = useState();
   const [progress, set_progress] = useState(0)

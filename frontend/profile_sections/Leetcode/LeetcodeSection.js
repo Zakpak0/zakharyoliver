@@ -3,7 +3,7 @@ import http from "http";
 import ProgressBar from '../../components/Progress'
 import ScrollBar from "../../components/Scroll"
 import { ProblemHeader, ProblemInfo, ProblemInfoContainer, ProblemInfoHeader, SolvedProblemContainer, SolvedProblemsContainer } from "./LeetcodeComponents"
-const LeetcodeSection = () => {
+const LeetcodeSection = ({ themeMode }) => {
   const [recent_subs, set_recent_subs] = useState();
   const [loading, set_loading] = useState(true)
   const [problems, set_problems] = useState();

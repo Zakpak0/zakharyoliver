@@ -15,7 +15,10 @@ const ActivityDataContainer = styled('div', {
     height: "100%",
     width: "100%",
     gridArea: "activity",
-    textAlign: "center"
+    textAlign: "center",
+    border: "solid",
+    borderColor: "white",
+    borderWidth: "0.005rem"
 })
 const ActivityHoursViewedHeader = styled('h3', {
     marginRight: 10,
@@ -39,9 +42,15 @@ const BadgeDataContainer = styled('div', {
 })
 const BadgeContainerHeader = styled('h4', {
     textAlign: "center",
+    color: "GhostWhite",
+    fontSize: "25px",
+    fontWeight: "lighter"
 })
 const BadgeContentContainer = styled('div', {
     background: "Black",
+    border: "solid",
+    borderColor: "white",
+    borderWidth: "0.005rem"
 })
 const BadgeInfoBody = styled("div", {
     background: `linear-gradient(174.59deg, ${mint.mint9} -38.91%, ${mint.mint12} 95.67%)`,
@@ -78,10 +87,15 @@ const CourseDataContainer = styled('div', {
     width: "100%"
 })
 const CourseContainerHeader = styled('h4', {
-    textAlign: "center"
+    textAlign: "center",
+    color: "GhostWhite",
+    fontSize: "25px",
 })
 const CourseContentContainer = styled('div', {
     background: "Black",
+    border: "solid",
+    borderColor: "white",
+    borderWidth: "0.005rem"
 })
 const CourseInfoBody = styled('div', {
     background: `linear-gradient(174.59deg, ${mint.mint9} -38.91%, ${mint.mint12} 95.67%)`,
@@ -125,10 +139,16 @@ const LearningDataContainer = styled('div', {
 })
 const LearningContainerHeader = styled('h4', {
     textAlign: "center",
+    color: "GhostWhite",
+    fontSize: "25px",
+    fontWeight: "lighter",
 
 })
 const LearningContentContainer = styled('div', {
     background: "Black",
+    border: "solid",
+    borderColor: "white",
+    borderWidth: "0.005rem"
 })
 const LearningInfoBody = styled('div', {
     background: `linear-gradient(174.59deg, ${mint.mint9} -38.91%, ${mint.mint12} 95.67%)`,

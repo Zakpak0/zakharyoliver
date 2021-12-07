@@ -1,18 +1,70 @@
 import Head from "next/head";
 import Image from "next/image";
-import { theme, styled } from "../stitches.config";
+import { theme, styled, darkTheme } from "../stitches.config";
 import { blackA, lime, limeA, mint } from "@radix-ui/colors";
 import styles from "../styles/Home.module.css";
+import Bar from "../components/Bar"
+import Switch from "../components/Switch"
+import Scroll from "../components/Scroll"
 import * as AspectRatio from "@radix-ui/react-aspect-ratio";
 import PluralsightSection from "../profile_sections/Pluralsight/PluralsightSection.js";
 import GithubSection from "../profile_sections/Github/GithubSection.js";
 import CalendarSection from "../profile_sections/Calendar/CalendarSection.js";
 import LeetcodeSection from "../profile_sections/Leetcode/LeetcodeSection.js";
+import { useEffect, useState } from "react";
+import ProgressBar from "../components/Progress";
 export default function Home() {
+  const [themeMode, setThemeMode] = useState(true)
+  const [loading, setLoading] = useState(true)
+  const [progress, setProgress] = useState(0)
+  useEffect(() => {
+    let callTimeoutStack =setTimeout(() => {
+      setProgress(20)
+      if (window) {
+        setProgress(100)
+        clearTimeout(callTimeoutStack)
+      }
+      callTimeoutStack = setTimeout(() => {
+        setProgress(40)
+      if (window) {
+        setProgress(100)
+        clearTimeout(callTimeoutStack)
+      }
+      callTimeoutStack = setTimeout(() => {
+          setProgress(60)
+      if (window) {
+        setProgress(100)
+        clearTimeout(callTimeoutStack)
+      }
+      callTimeoutStack =   setTimeout(() => {
+            setProgress(80)
+      if (window) {
+        setProgress(100)
+        clearTimeout(callTimeoutStack)
+      }
+      callTimeoutStack = setTimeout(() => {
+              setProgress(100)
+      if (window) {
+        setProgress(100)
+        clearTimeout(callTimeoutStack)
+      }
+             },1000)
+          },1000)
+        },1000)
+      },1000)
+    },1000)
+  }, [])
+  useEffect(() => {
+    if (window && progress == 100) {
+      setTimeout(() => {
+        setLoading(false)
+      }, 1000)
+    }
+  },[progress])
   const H1 = styled('h1', {})
   const P = styled('p', {})
   const H2 = styled('h2', {})
-  const A1 = styled("a",{
+  const A1 = styled("a", {
     margin: "1rem",
     padding: "1.5rem",
     textAlign: "left",
@@ -23,22 +75,33 @@ export default function Home() {
     transition: "color 0.15s ease, border-color 0.15s ease",
     maxWidth: "max-content"
   })
+  // RGB(72, 213, 183)
+  // RGB(183, 213, 72)
+  // rgb(9, 52, 46)
+  // rgb(46, 52, 9)
+  function nameToRgba(name) {
+    const image = () => <Image src={name} height={"10px"} width={"10px"} />
+    return console.log(image());
+  }
+  nameToRgba(mint.mint12)
   const NoA = styled("div", {
-    background: `linear-gradient(174.59deg, ${mint.mint9} -38.91%, ${mint.mint12} 95.67%)`,
+    background: themeMode ? `${theme.colors.container}` : `${theme.colors.containerDark}`,
     margin: "1rem",
     padding: "1.5rem",
     textAlign: "left",
     color: "inherit",
     textDecoration: "none",
-    border: "1px solid #eaeaea",
+    border: "solid",
     borderRadius: "10px",
     transition: "color 0.15s ease, border-color 0.15s ease",
     height: "max-content",
-    width: "max-content"
+    width: "max-content",
+    borderColor: "Black",
+    borderWidth: "0.005rem"
   })
   const Main = styled("main", {
     border: "1px solid #eaeaea",
-    background: "Black",
+    background: themeMode ? 'White' : "Black",
     borderRadius: "10px",
     transition: "color 0.15s ease, border-color 0.15s ease",
     minHeight: '1000vh',
@@ -48,22 +111,38 @@ export default function Home() {
     flexDirection: "column",
     justifyItems: "center",
     alignItems: "center"
+
   })
   const Div = styled("div", {
     display: "grid",
     gridTemplateColumns: "1fr 1fr 1fr 1fr",
     gridTemplateRows: "auto",
     gridTemplateAreas: `". calendar leetcode . "
-    ". pluralsight pluralsight ."
+    "pluralsight  pluralsight pluralsight pluralsight "
     ". github github ."
     `,
     alignItems: "center",
     justifyContent: "center",
     flexWrap: "wrap",
     maxWidth: "1500px"
- });
+  });
   return (
     <>
+      {loading ? <> <ProgressBar progress={progress} /> </> :
+        <>
+          <Bar Item={Switch}
+            setThemeMode={setThemeMode}
+            themeMode={themeMode}
+            height={window.innerHeight}
+        width={window.innerWidth}
+          />
+          <Scroll
+            rootH={window.innerHeight}
+            rootW={window.innerWidth}
+        height={window.innerHeight}
+        width={window.innerWidth}
+      content={
+        <>
     <div className={styles.container}>
       <Head>
         <title>Zakhary Oliver</title>
@@ -76,7 +155,6 @@ export default function Home() {
           href="https://lh3.googleusercontent.com/a-/AOh14Gi_P_FSiBCwqZgeBLmzPUzlTi98EvTEzWlN_Fdp=s288-p-rw-no"
         />
       </Head>
-
       <Main>
         <H1>
           Welcome to{" "}
@@ -97,7 +175,7 @@ export default function Home() {
             >
                 <H2>Calendar</H2>
               <P>Schedule an appointment here</P>
-              {/* <CalendarSection /> */}
+              {/* <CalendarSection themeMode={themeMode} theme={theme} /> */}
             </NoA>
             <NoA
              css={{
@@ -106,16 +184,22 @@ export default function Home() {
             >
               <H2>Problem Solving Skills</H2>
               <P>Leet Code</P>
-              <LeetcodeSection />
+              <LeetcodeSection themeMode={themeMode} theme={theme} />
                 </NoA>
             <NoA
              css={{
-              gridArea: "pluralsight"
+                gridArea: "pluralsight",
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center"
+               
             }}
             >
               <H2>Technical Skills</H2>
               <P>Pluralsight</P>
-              <PluralsightSection />
+              <PluralsightSection themeMode={themeMode} theme={theme} />
             </NoA>
             <A1
               css={{
@@ -124,12 +208,17 @@ export default function Home() {
             >
               <H2>Repositories</H2>
               <P>Github profile</P>
-              {/* <GithubSection /> */}
+              {/* <GithubSection themeMode={themeMode} theme={theme} /> */}
             </A1>
           </Div>
     
       </Main>
-    </div>
-    </>
+      </div>
+      </>
+      }
+        />
+      </>
+      }
+      </>
   );
 }

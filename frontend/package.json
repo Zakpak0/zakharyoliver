@@ -13,6 +13,8 @@
     "@radix-ui/react-icons": "^1.0.3",
     "@radix-ui/react-progress": "^0.1.1",
     "@radix-ui/react-scroll-area": "^0.1.1",
+    "@radix-ui/react-switch": "^0.1.1",
+    "@radix-ui/react-toolbar": "^0.1.1",
     "@stitches/react": "^1.2.5",
     "@types/node": "^16.7.0",
     "@types/react": "^17.0.19",

@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import http from "http";
 import ScrollBar from "../../components/Scroll";
 import { PluralsightInfoContainer, ActivityDataContainer, BadgeDataContainer, CourseDataContainer, LearningDataContainer, ActivityHoursViewedHeader, ActivityHours, LearningContainerHeader, CourseContainerHeader, BadgeContainerHeader, BadgeTitle, BadgeDate, BadgeImage, BadgeInfoBody, BadgeContentContainer, BadgeDescription, CourseInfoBody, CourseTitle, CourseDate, CourseLevel, LearningInfoBody, LearningTitle, LearningInstructor, LearningPercentComplete, LearningLevel, CourseContentContainer, LearningContentContainer, CourseInstructor } from './PluralsightComponents'
-const PluralsightSection = () => {
+import ProgressBar from "../../components/Progress";
+const PluralsightSection = ({ themeMode, theme }) => {
   const [activity_data, set_activity_data] = useState();
   const [badge_data, set_badge_data] = useState();
   const [course_data, set_course_data] = useState();
@@ -28,14 +29,32 @@ const PluralsightSection = () => {
               set_badge_data(point.Badge_Data.map((badges) => {
                 let { name, description, iconUrl, dateAchieved } = badges
                 return (
-                  <BadgeInfoBody>
-                    <BadgeTitle>{name}</BadgeTitle>
-                    <BadgeDate>Earned: {new Date(dateAchieved).toDateString()}</BadgeDate>
+                  <BadgeInfoBody
+                    css={{
+                      background: themeMode ? `${theme.colors.container}` : `${theme.colors.containerDark}`
+                    }}
+                  >
+                    <BadgeTitle
+                      css={{
+                        textShadow: themeMode ? "0.5px 0.5px White" : "1.0px 1.0px Black",
+                        boxShadow: themeMode ? "0.5px 0.5px White" : "1.0px 1.0px Black",
+                        color: themeMode ? theme.colors.text : theme.colors.textDark
+                      }}
+                    >{name}</BadgeTitle>
+                    <BadgeDate
+                      css={{
+                        color: themeMode ? theme.colors.text : theme.colors.textDark
+                      }}
+                    >Earned: {new Date(dateAchieved).toDateString()}</BadgeDate>
                     <BadgeImage src={iconUrl}
                       height={100}
                       width={100}
                     />
-                    <BadgeDescription>{description}</BadgeDescription>
+                    <BadgeDescription
+                      css={{
+                        color: themeMode ? theme.colors.text : theme.colors.textDark
+                      }}
+                    >{description}</BadgeDescription>
                   </BadgeInfoBody>)
               }));
             }
@@ -44,11 +63,33 @@ const PluralsightSection = () => {
                 let { displayName, level, timeCompleted, title } = courses
                 let link = title.toLowerCase()
                 return (
-                  <CourseInfoBody>
-                    <CourseTitle href={`https://www.google.com/search?q=${link}`}>{title}</CourseTitle>
-                    <CourseInstructor>Instructor: {displayName}</CourseInstructor>
-                    <CourseLevel>Course Level: {level}</CourseLevel>
-                    <CourseDate>Completion Date: {new Date(timeCompleted).toDateString()}</CourseDate>
+                  <CourseInfoBody
+                    css={{
+                      background: themeMode ? `${theme.colors.container}` : `${theme.colors.containerDark}`
+                    }}
+                  >
+                    <CourseTitle
+                      css={{
+                        textShadow: themeMode ? "0.5px 0.5px White" : "1.0px 1.0px Black",
+                        boxShadow: themeMode ? "0.5px 0.5px White" : "1.0px 1.0px Black",
+                        color: themeMode ? theme.colors.text : theme.colors.textDark
+                      }}
+                      href={`https://www.google.com/search?q=${link}`}>{title}</CourseTitle>
+                    <CourseInstructor
+                      css={{
+                        color: themeMode ? theme.colors.text : theme.colors.textDark
+                      }}
+                    >Instructor: {displayName}</CourseInstructor>
+                    <CourseLevel
+                      css={{
+                        color: themeMode ? theme.colors.text : theme.colors.textDark
+                      }}
+                    >Course Level: {level}</CourseLevel>
+                    <CourseDate
+                      css={{
+                        color: themeMode ? theme.colors.text : theme.colors.textDark
+                      }}
+                    >Completion Date: {new Date(timeCompleted).toDateString()}</CourseDate>
                   </CourseInfoBody>)
               }));
             }
@@ -57,11 +98,39 @@ const PluralsightSection = () => {
                 let { displayName, level, title, percentComplete } = learning
                 let link = title.toLowerCase()
                 return (
-                  <LearningInfoBody>
-                    <LearningTitle href={`https://www.google.com/search?q=${link}`}>{title}</LearningTitle>
-                    <LearningInstructor>{displayName}</LearningInstructor>
-                    <LearningPercentComplete>{Math.floor(percentComplete)}%</LearningPercentComplete>
-                    <LearningLevel>{level}</LearningLevel>
+                  <LearningInfoBody
+                    css={{
+                      background: themeMode ? `${theme.colors.container}` : `${theme.colors.containerDark}`
+                    }}
+                  >
+                    <LearningTitle
+                      css={{
+                        textShadow: themeMode ? "1.0px 1.0px White" : "1.0px 1.0px Black",
+                        boxShadow: themeMode ? "1.0px 1.0px White" : "1.0px 1.0px Black",
+                        color: themeMode ? theme.colors.text : theme.colors.textDark
+                      }}
+                      href={`https://www.google.com/search?q=${link}`}>{title}</LearningTitle>
+                    <LearningInstructor
+                      css={{
+                        textShadow: themeMode ? "1.0px 1.0px White" : "1.0px 1.0px Black",
+                        boxShadow: themeMode ? "1.0px 1.0px White" : "1.0px 1.0px Black",
+                        color: themeMode ? theme.colors.text : theme.colors.textDark
+                      }}
+                    >{displayName}</LearningInstructor>
+                    <LearningPercentComplete
+                      css={{
+                        textShadow: themeMode ? "1.0px 1.0px White" : "1.0px 1.0px Black",
+                        boxShadow: themeMode ? "1.0px 1.0px White" : "1.0px 1.0px Black",
+                        color: themeMode ? theme.colors.text : theme.colors.textDark
+                      }}
+                    ><ProgressBar progress={Math.floor(percentComplete)} />{Math.floor(percentComplete)}%</LearningPercentComplete>
+                    <LearningLevel
+                      css={{
+                        textShadow: themeMode ? "1.0px 1.0px White" : "1.0px 1.0px Black",
+                        boxShadow: themeMode ? "1.0px 1.0px White" : "1.0px 1.0px Black",
+                        color: themeMode ? theme.colors.text : theme.colors.textDark
+                      }}
+                    >{level}</LearningLevel>
                   </LearningInfoBody>)
               }));
             }
@@ -73,44 +142,76 @@ const PluralsightSection = () => {
   return (
     <>
       <PluralsightInfoContainer>
-        <ActivityDataContainer>
+        <ActivityDataContainer
+        >
           <ScrollBar
             height={"75px"}
             width={"100%"}
             content={activity_data}
           />
         </ActivityDataContainer>
-        <BadgeDataContainer>
-          <BadgeContainerHeader>Badges Earned: {badge_data ? badge_data.length : ""}</BadgeContainerHeader>
+        <BadgeDataContainer
+          css={{
+          }}
+        >
+          <BadgeContainerHeader
+            css={{
+              color: themeMode ? theme.colors.text : theme.colors.textDark
+            }}
+          >Badges Earned: {badge_data ? badge_data.length : ""}</BadgeContainerHeader>
           <ScrollBar
             height={"500px"}
             width={"100%"}
             content={
-              <BadgeContentContainer>
+              <BadgeContentContainer
+                css={{
+                  borderColor: themeMode ? "Black" : "White",
+                  background: themeMode ? "White" : `Black`
+                }}
+              >
                 {badge_data}
               </BadgeContentContainer>
             }
           />
         </BadgeDataContainer>
-        <CourseDataContainer>
-          <CourseContainerHeader>Courses Completed</CourseContainerHeader>
+        <CourseDataContainer
+        >
+          <CourseContainerHeader
+            css={{
+              color: themeMode ? theme.colors.text : theme.colors.textDark
+            }}
+          >Courses Completed</CourseContainerHeader>
           <ScrollBar
             height={"500px"}
             width={"100%"}
             content={
-              <CourseContentContainer>
+              <CourseContentContainer
+                css={{
+                  borderColor: themeMode ? "Black" : "White",
+                  background: themeMode ? "White" : `Black`
+                }}
+              >
                 {course_data}
               </CourseContentContainer>
             }
           />
         </CourseDataContainer>
         <LearningDataContainer>
-          <LearningContainerHeader>Courses Currently In Progress</LearningContainerHeader>
+          <LearningContainerHeader
+            css={{
+              color: themeMode ? theme.colors.text : theme.colors.textDark
+            }}
+          >Courses Currently In Progress</LearningContainerHeader>
           <ScrollBar
             height={"300px"}
             width={"100%"}
             content={
-              <LearningContentContainer>
+              <LearningContentContainer
+                css={{
+                  borderColor: themeMode ? "Black" : "White",
+                  background: themeMode ? "White" : `Black`
+                }}
+              >
                 {learning_data}
               </LearningContentContainer>
             }

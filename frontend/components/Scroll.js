@@ -54,18 +54,20 @@ const ScrollAreaCorner = styled(ScrollArea.Corner, {
     background: "Black",
 });
 
-const ScrollBar = ({ content, height, width, header }) => {
+const ScrollBar = ({ content, height, width, header, rootH, rootW }) => {
 
     return (
         <>
             <ScrollAreaRoot
                 css={{
-                    background: yellowA.yellowA9
+                    background: "White",
+                    height: rootH,
+                    width: rootW
                 }}
             >
                 {header}
                 <ScrollAreaViewport css={{
-                    backgroundColor: 'white',
+                    backgroundColor: 'Black',
                     height: height || 320,
                     width: width || 550,
                 }}>
