@@ -18,49 +18,19 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const [progress, setProgress] = useState(0)
   useEffect(() => {
-    let callTimeoutStack =setTimeout(() => {
-      setProgress(20)
-      if (window) {
-        setProgress(100)
-        clearTimeout(callTimeoutStack)
-      }
-      callTimeoutStack = setTimeout(() => {
-        setProgress(40)
-      if (window) {
-        setProgress(100)
-        clearTimeout(callTimeoutStack)
-      }
-      callTimeoutStack = setTimeout(() => {
-          setProgress(60)
-      if (window) {
-        setProgress(100)
-        clearTimeout(callTimeoutStack)
-      }
-      callTimeoutStack =   setTimeout(() => {
-            setProgress(80)
-      if (window) {
-        setProgress(100)
-        clearTimeout(callTimeoutStack)
-      }
-      callTimeoutStack = setTimeout(() => {
-              setProgress(100)
-      if (window) {
-        setProgress(100)
-        clearTimeout(callTimeoutStack)
-      }
-             },1000)
-          },1000)
-        },1000)
-      },1000)
-    },1000)
-  }, [])
-  useEffect(() => {
-    if (window && progress == 100) {
-      setTimeout(() => {
+    let count = 0
+    let interval = setInterval(() => {
+      count += 20
+      setProgress(count)
+      console.log(progress)
+      if (count == 120) {
+        console.log("hi")
         setLoading(false)
-      }, 1000)
-    }
-  },[progress])
+        clearInterval(interval)
+      }
+    }, 500)
+  }, [])
+
   const H1 = styled('h1', {})
   const P = styled('p', {})
   const H2 = styled('h2', {})
@@ -115,9 +85,9 @@ export default function Home() {
   })
   const Div = styled("div", {
     display: "grid",
-    gridTemplateColumns: "1fr 1fr 1fr 1fr",
+    gridTemplateColumns: "1fr 1fr",
     gridTemplateRows: "auto",
-    gridTemplateAreas: `". calendar leetcode . "
+    gridTemplateAreas: `"leetcode  leetcode  leetcode leetcode"
     "pluralsight  pluralsight pluralsight pluralsight "
     ". github github ."
     `,
@@ -137,8 +107,8 @@ export default function Home() {
         width={window.innerWidth}
           />
           <Scroll
-            rootH={window.innerHeight}
-            rootW={window.innerWidth}
+            display={"flex"}
+            flexGrow={1}
         height={window.innerHeight}
         width={window.innerWidth}
       content={
@@ -167,26 +137,26 @@ export default function Home() {
           Schedule a appointment with me <code>/calendar</code>
         </P>
           <Div>
-            
+{/*             
             <NoA
               css={{
               gridArea: "calendar"
             }}
             >
                 <H2>Calendar</H2>
-              <P>Schedule an appointment here</P>
+              <P>Schedule an appointment here</P> */}
               {/* <CalendarSection themeMode={themeMode} theme={theme} /> */}
-            </NoA>
-            <NoA
+            {/* </NoA> */}
+            {/* <NoA
              css={{
               gridArea: "leetcode"
             }}
             >
               <H2>Problem Solving Skills</H2>
-              <P>Leet Code</P>
+              <P>Leet Code</P> */}
               <LeetcodeSection themeMode={themeMode} theme={theme} />
-                </NoA>
-            <NoA
+                {/* </NoA> */}
+            {/* <NoA
              css={{
                 gridArea: "pluralsight",
                 width: "100%",
@@ -198,9 +168,9 @@ export default function Home() {
             }}
             >
               <H2>Technical Skills</H2>
-              <P>Pluralsight</P>
-              <PluralsightSection themeMode={themeMode} theme={theme} />
-            </NoA>
+              <P>Pluralsight</P> */}
+              <PluralsightSection  themeMode={themeMode} theme={theme} />
+            {/* </NoA>
             <A1
               css={{
               gridArea: "github"
@@ -209,12 +179,11 @@ export default function Home() {
               <H2>Repositories</H2>
               <P>Github profile</P>
               {/* <GithubSection themeMode={themeMode} theme={theme} /> */}
-            </A1>
+            {/* </A1> */}
           </Div>
-    
       </Main>
       </div>
-      </>
+      // </>
       }
         />
       </>

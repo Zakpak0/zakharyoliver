@@ -114,6 +114,9 @@ const LeetcodeSection = ({ themeMode }) => {
   return (
     <>
       <ScrollBar
+        css={{
+          gridArea: "pluralsight",
+        }}
         content={<SolvedProblemsContainer>{loading ?
           <ProgressBar
             loading_header={loading_header}

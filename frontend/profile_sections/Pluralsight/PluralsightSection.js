@@ -31,13 +31,17 @@ const PluralsightSection = ({ themeMode, theme }) => {
                 return (
                   <BadgeInfoBody
                     css={{
-                      background: themeMode ? `${theme.colors.container}` : `${theme.colors.containerDark}`
+                      background: "black",
+                      backgroundImage: `url(${iconUrl})`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundSize: "cover",
+                      backgroundPosition: "center center",
+                      borderColor: themeMode ? "black" : "white",
                     }}
                   >
                     <BadgeTitle
                       css={{
                         textShadow: themeMode ? "0.5px 0.5px White" : "1.0px 1.0px Black",
-                        boxShadow: themeMode ? "0.5px 0.5px White" : "1.0px 1.0px Black",
                         color: themeMode ? theme.colors.text : theme.colors.textDark
                       }}
                     >{name}</BadgeTitle>
@@ -46,10 +50,10 @@ const PluralsightSection = ({ themeMode, theme }) => {
                         color: themeMode ? theme.colors.text : theme.colors.textDark
                       }}
                     >Earned: {new Date(dateAchieved).toDateString()}</BadgeDate>
-                    <BadgeImage src={iconUrl}
+                    {/* <BadgeImage src={iconUrl}
                       height={100}
                       width={100}
-                    />
+                    /> */}
                     <BadgeDescription
                       css={{
                         color: themeMode ? theme.colors.text : theme.colors.textDark
@@ -60,18 +64,19 @@ const PluralsightSection = ({ themeMode, theme }) => {
             }
             if (point.Course_Data) {
               set_course_data(point.Course_Data.map((courses) => {
-                let { displayName, level, timeCompleted, title } = courses
+                let { displayName, level, timeCompleted, title, slug } = courses
                 let link = title.toLowerCase()
                 return (
                   <CourseInfoBody
                     css={{
-                      background: themeMode ? `${theme.colors.container}` : `${theme.colors.containerDark}`
+                      backgroundImage: `url(https://pluralsight.imgix.net/course-images/${slug}-v1.jpg), url(https://pluralsight.imgix.net/course-images/${slug}-v1.png)`,
+                      borderColor: themeMode ? "black" : "white",
                     }}
                   >
                     <CourseTitle
                       css={{
                         textShadow: themeMode ? "0.5px 0.5px White" : "1.0px 1.0px Black",
-                        boxShadow: themeMode ? "0.5px 0.5px White" : "1.0px 1.0px Black",
+
                         color: themeMode ? theme.colors.text : theme.colors.textDark
                       }}
                       href={`https://www.google.com/search?q=${link}`}>{title}</CourseTitle>
@@ -100,34 +105,34 @@ const PluralsightSection = ({ themeMode, theme }) => {
                 return (
                   <LearningInfoBody
                     css={{
-                      background: themeMode ? `${theme.colors.container}` : `${theme.colors.containerDark}`
+                      background: themeMode ? `${theme.colors.container}` : `${theme.colors.containerDark}`,
+                      borderColor: themeMode ? "black" : "white",
                     }}
                   >
                     <LearningTitle
                       css={{
                         textShadow: themeMode ? "1.0px 1.0px White" : "1.0px 1.0px Black",
-                        boxShadow: themeMode ? "1.0px 1.0px White" : "1.0px 1.0px Black",
+
                         color: themeMode ? theme.colors.text : theme.colors.textDark
                       }}
                       href={`https://www.google.com/search?q=${link}`}>{title}</LearningTitle>
                     <LearningInstructor
                       css={{
                         textShadow: themeMode ? "1.0px 1.0px White" : "1.0px 1.0px Black",
-                        boxShadow: themeMode ? "1.0px 1.0px White" : "1.0px 1.0px Black",
+
                         color: themeMode ? theme.colors.text : theme.colors.textDark
                       }}
                     >{displayName}</LearningInstructor>
                     <LearningPercentComplete
                       css={{
                         textShadow: themeMode ? "1.0px 1.0px White" : "1.0px 1.0px Black",
-                        boxShadow: themeMode ? "1.0px 1.0px White" : "1.0px 1.0px Black",
+
                         color: themeMode ? theme.colors.text : theme.colors.textDark
                       }}
                     ><ProgressBar progress={Math.floor(percentComplete)} />{Math.floor(percentComplete)}%</LearningPercentComplete>
                     <LearningLevel
                       css={{
                         textShadow: themeMode ? "1.0px 1.0px White" : "1.0px 1.0px Black",
-                        boxShadow: themeMode ? "1.0px 1.0px White" : "1.0px 1.0px Black",
                         color: themeMode ? theme.colors.text : theme.colors.textDark
                       }}
                     >{level}</LearningLevel>
@@ -141,84 +146,87 @@ const PluralsightSection = ({ themeMode, theme }) => {
   }, []);
   return (
     <>
-      <PluralsightInfoContainer>
-        <ActivityDataContainer
-        >
-          <ScrollBar
-            height={"75px"}
-            width={"100%"}
-            content={activity_data}
-          />
-        </ActivityDataContainer>
-        <BadgeDataContainer
+      {/* <PluralsightInfoContainer> */}
+      {/* <ActivityDataContainer
+      > */}
+      <ScrollBar
+        height={"75px"}
+        width={"100%"}
+        content={activity_data}
+      />
+      {/* </ActivityDataContainer> */}
+      {/* <BadgeDataContainer
+        css={{
+        }}
+      >
+        <BadgeContainerHeader
           css={{
+            color: themeMode ? theme.colors.text : theme.colors.textDark
           }}
-        >
-          <BadgeContainerHeader
+        >Badges Earned: {badge_data ? badge_data.length : ""}</BadgeContainerHeader> */}
+      <ScrollBar
+        height={"500px"}
+        width={"100%"}
+        content={
+          <BadgeContentContainer
             css={{
-              color: themeMode ? theme.colors.text : theme.colors.textDark
+              gridArea: "pluralsight",
+              borderColor: themeMode ? "Black" : "White",
+              background: themeMode ? "White" : `Black`
             }}
-          >Badges Earned: {badge_data ? badge_data.length : ""}</BadgeContainerHeader>
-          <ScrollBar
-            height={"500px"}
-            width={"100%"}
-            content={
-              <BadgeContentContainer
-                css={{
-                  borderColor: themeMode ? "Black" : "White",
-                  background: themeMode ? "White" : `Black`
-                }}
-              >
-                {badge_data}
-              </BadgeContentContainer>
-            }
-          />
-        </BadgeDataContainer>
-        <CourseDataContainer
-        >
-          <CourseContainerHeader
+          >
+            {badge_data}
+          </BadgeContentContainer>
+        }
+      />
+      {/* </BadgeDataContainer> */}
+      {/* <CourseDataContainer
+      >
+        <CourseContainerHeader
+          css={{
+            color: themeMode ? theme.colors.text : theme.colors.textDark
+          }}
+        >Courses Completed:  {course_data ? course_data.length : ""}</CourseContainerHeader> */}
+      <ScrollBar
+        height={"500px"}
+        width={"100%"}
+        content={
+          <CourseContentContainer
             css={{
-              color: themeMode ? theme.colors.text : theme.colors.textDark
+              gridArea: "pluralsight",
+              borderColor: themeMode ? "Black" : "White",
+              background: themeMode ? "White" : `Black`
             }}
-          >Courses Completed</CourseContainerHeader>
-          <ScrollBar
-            height={"500px"}
-            width={"100%"}
-            content={
-              <CourseContentContainer
-                css={{
-                  borderColor: themeMode ? "Black" : "White",
-                  background: themeMode ? "White" : `Black`
-                }}
-              >
-                {course_data}
-              </CourseContentContainer>
-            }
-          />
-        </CourseDataContainer>
-        <LearningDataContainer>
-          <LearningContainerHeader
+          >
+            {course_data}
+          </CourseContentContainer>
+        }
+      />
+      {/* </CourseDataContainer> *
+       <LearningDataContainer>
+        <LearningContainerHeader
+          css={{
+            color: themeMode ? theme.colors.text : theme.colors.textDark
+          }}
+        >Courses Currently In Progress:  {learning_data ? learning_data.length : ""}</LearningContainerHeader> */}
+      <ScrollBar
+        height={"300px"}
+        width={"100%"}
+        content={
+          <LearningContentContainer
             css={{
-              color: themeMode ? theme.colors.text : theme.colors.textDark
+              gridArea: "pluralsight",
+              borderColor: themeMode ? "Black" : "White",
+              background: themeMode ? "White" : `Black`
             }}
-          >Courses Currently In Progress</LearningContainerHeader>
-          <ScrollBar
-            height={"300px"}
-            width={"100%"}
-            content={
-              <LearningContentContainer
-                css={{
-                  borderColor: themeMode ? "Black" : "White",
-                  background: themeMode ? "White" : `Black`
-                }}
-              >
-                {learning_data}
-              </LearningContentContainer>
-            }
+          >
+            {learning_data}
+          </LearningContentContainer>
+        }
 
-          />
-        </LearningDataContainer>
-      </PluralsightInfoContainer>
+      />
+      {/* </LearningDataContainer> */}
+      {/* </PluralsightInfoContainer> */}
     </>
   );
 };

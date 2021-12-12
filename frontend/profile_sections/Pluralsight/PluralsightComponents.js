@@ -2,14 +2,14 @@ import { styled } from "@stitches/react";
 import Image from "next/dist/client/image";
 import { blackA, limeA, yellowA, amberA, mint, whiteA } from "@radix-ui/colors";
 const PluralsightInfoContainer = styled('div', {
-    height: "1000px",
-    width: "1200px",
+    height: "1200px",
+    width: "1400px",
     display: "grid",
     gridTemplateColumns: "1fr 1fr 1fr 1fr",
     gridTemplateRows: "75px 2fr 3fr",
     gridTemplateAreas: `'activity activity activity activity'
                          'course course badge badge'
-                         'learning learning learning learning'`,
+                         '. learning learning .'`,
 })
 const ActivityDataContainer = styled('div', {
     height: "100%",
@@ -44,33 +44,33 @@ const BadgeContainerHeader = styled('h4', {
     textAlign: "center",
     color: "GhostWhite",
     fontSize: "25px",
-    fontWeight: "lighter"
+    fontWeight: "lighter",
 })
 const BadgeContentContainer = styled('div', {
     background: "Black",
     border: "solid",
     borderColor: "white",
-    borderWidth: "0.005rem"
+    borderWidth: "0.005rem",
+    padding: "0 0 0 10px"
 })
 const BadgeInfoBody = styled("div", {
     background: `linear-gradient(174.59deg, ${mint.mint9} -38.91%, ${mint.mint12} 95.67%)`,
     display: "flex",
     flexDirection: "column",
     borderRadius: 12,
-    padding: "0 5px 0 5px",
+    padding: "5px 25px 5px 25px",
     margin: "8px 10px 10px 8px",
     border: "solid",
     borderColor: "white",
     borderWidth: "0.005rem"
 })
 const BadgeTitle = styled('h4', {
-    borderRadius: 8,
-    backgroundColor: limeA.limeA9,
     color: `${whiteA.whiteA12}`,
     textShadow: "1.0px 1.0px Black",
     padding: "0 0 5px 0",
-    textAlign: "center",
-    boxShadow: "1.5px 1.5px Black"
+    textAlign: "left",
+    fontSize: "x-large",
+    textDecoration: "underline"
 })
 const BadgeDate = styled('code', {
     color: "WhiteSmoke",
@@ -90,6 +90,7 @@ const CourseContainerHeader = styled('h4', {
     textAlign: "center",
     color: "GhostWhite",
     fontSize: "25px",
+    fontWeight: "lighter",
 })
 const CourseContentContainer = styled('div', {
     background: "Black",
@@ -102,23 +103,19 @@ const CourseInfoBody = styled('div', {
     display: "flex",
     flexDirection: "column",
     borderRadius: 12,
-    padding: "10px 5px 10px 5px",
+    padding: "5px 25px 5px 25px",
     margin: "8px 10px 10px 8px",
     border: "solid",
     borderColor: "white",
-    borderWidth: "0.005rem"
+    borderWidth: "0.005rem",
 })
 const CourseTitle = styled('a', {
-    textDecoration: "underline",
-    textDecorationThickness: "2.5px",
-    fontWeight: "bolder",
-    borderRadius: 8,
-    backgroundColor: amberA.amberA9,
     color: `${whiteA.whiteA12}`,
     textShadow: "1.0px 1.0px Black",
     padding: "0 0 5px 0",
-    textAlign: "center",
-    boxShadow: "1.5px 1.5px Black"
+    textAlign: "left",
+    fontSize: "x-large",
+    textDecoration: "underline"
 })
 const CourseDate = styled('code', {
     color: "WhiteSmoke",
@@ -155,27 +152,26 @@ const LearningInfoBody = styled('div', {
     display: "flex",
     flexDirection: "column",
     borderRadius: 12,
-    padding: "10px 5px 10px 5px",
+    padding: "5px 25px 5px 25px",
     margin: "8px 10px 10px 8px",
     border: "solid",
     borderColor: "white",
     borderWidth: "0.005rem"
 })
 const LearningTitle = styled('a', {
-    textDecoration: "underline",
-    textDecorationThickness: "2.5px",
-    fontWeight: "bolder",
-    borderRadius: 8,
-    backgroundColor: yellowA.yellowA9,
     color: `${whiteA.whiteA12}`,
     textShadow: "1.0px 1.0px Black",
     padding: "0 0 5px 0",
-    textAlign: "center",
-    boxShadow: "1.0px 1.0px Black"
+    textAlign: "left",
+    fontSize: "x-large",
+    textDecoration: "underline"
 })
 const LearningPercentComplete = styled('code', {
     color: "WhiteSmoke",
-    fontWeight: "normal"
+    fontWeight: "normal",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
 })
 const LearningInstructor = styled('p', {
     color: "WhiteSmoke",
