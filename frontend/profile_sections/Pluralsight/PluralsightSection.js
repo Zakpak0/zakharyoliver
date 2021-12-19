@@ -100,12 +100,12 @@ const PluralsightSection = ({ themeMode, theme }) => {
             }
             if (point.Learning_Data) {
               set_learning_data(point.Learning_Data.map((learning) => {
-                let { displayName, level, title, percentComplete } = learning
+                let { displayName, level, title, percentComplete, courseName } = learning
                 let link = title.toLowerCase()
                 return (
                   <LearningInfoBody
                     css={{
-                      background: themeMode ? `${theme.colors.container}` : `${theme.colors.containerDark}`,
+                      backgroundImage: `url(https://pluralsight.imgix.net/course-images/${courseName}-v1.jpg), url(https://pluralsight.imgix.net/course-images/${courseName}-v1.png)`,
                       borderColor: themeMode ? "black" : "white",
                     }}
                   >
@@ -146,87 +146,85 @@ const PluralsightSection = ({ themeMode, theme }) => {
   }, []);
   return (
     <>
-      {/* <PluralsightInfoContainer> */}
-      {/* <ActivityDataContainer
-      > */}
-      <ScrollBar
-        height={"75px"}
-        width={"100%"}
-        content={activity_data}
-      />
-      {/* </ActivityDataContainer> */}
-      {/* <BadgeDataContainer
-        css={{
-        }}
-      >
-        <BadgeContainerHeader
+      <PluralsightInfoContainer>
+        <ActivityDataContainer
+        >
+          <ScrollBar
+            height={"75px"}
+            width={"100%"}
+            content={activity_data}
+          />
+        </ActivityDataContainer>
+        <BadgeDataContainer
           css={{
-            color: themeMode ? theme.colors.text : theme.colors.textDark
           }}
-        >Badges Earned: {badge_data ? badge_data.length : ""}</BadgeContainerHeader> */}
-      <ScrollBar
-        height={"500px"}
-        width={"100%"}
-        content={
-          <BadgeContentContainer
+        >
+          <BadgeContainerHeader
             css={{
-              gridArea: "pluralsight",
-              borderColor: themeMode ? "Black" : "White",
-              background: themeMode ? "White" : `Black`
+              color: themeMode ? theme.colors.text : theme.colors.textDark
             }}
-          >
-            {badge_data}
-          </BadgeContentContainer>
-        }
-      />
-      {/* </BadgeDataContainer> */}
-      {/* <CourseDataContainer
-      >
-        <CourseContainerHeader
-          css={{
-            color: themeMode ? theme.colors.text : theme.colors.textDark
-          }}
-        >Courses Completed:  {course_data ? course_data.length : ""}</CourseContainerHeader> */}
-      <ScrollBar
-        height={"500px"}
-        width={"100%"}
-        content={
-          <CourseContentContainer
+          >Badges Earned: {badge_data ? badge_data.length : ""}</BadgeContainerHeader>
+          <ScrollBar
+            height={"500px"}
+            width={"100%"}
+            content={
+              <BadgeContentContainer
+                css={{
+                  gridArea: "pluralsight",
+                  borderColor: themeMode ? "Black" : "White",
+                  background: themeMode ? "White" : `Black`
+                }}
+              >
+                {badge_data}
+              </BadgeContentContainer>
+            }
+          />
+        </BadgeDataContainer>
+        <CourseDataContainer
+        >
+          <CourseContainerHeader
             css={{
-              gridArea: "pluralsight",
-              borderColor: themeMode ? "Black" : "White",
-              background: themeMode ? "White" : `Black`
+              color: themeMode ? theme.colors.text : theme.colors.textDark
             }}
-          >
-            {course_data}
-          </CourseContentContainer>
-        }
-      />
-      {/* </CourseDataContainer> *
-       <LearningDataContainer>
-        <LearningContainerHeader
-          css={{
-            color: themeMode ? theme.colors.text : theme.colors.textDark
-          }}
-        >Courses Currently In Progress:  {learning_data ? learning_data.length : ""}</LearningContainerHeader> */}
-      <ScrollBar
-        height={"300px"}
-        width={"100%"}
-        content={
-          <LearningContentContainer
+          >Courses Completed:  {course_data ? course_data.length : ""}</CourseContainerHeader>
+          <ScrollBar
+            height={"500px"}
+            width={"100%"}
+            content={
+              <CourseContentContainer
+                css={{
+                  borderColor: themeMode ? "Black" : "White",
+                  background: themeMode ? "White" : `Black`
+                }}
+              >
+                {course_data}
+              </CourseContentContainer>
+            }
+          />
+        </CourseDataContainer> *
+        <LearningDataContainer>
+          <LearningContainerHeader
             css={{
-              gridArea: "pluralsight",
-              borderColor: themeMode ? "Black" : "White",
-              background: themeMode ? "White" : `Black`
+              color: themeMode ? theme.colors.text : theme.colors.textDark
             }}
-          >
-            {learning_data}
-          </LearningContentContainer>
-        }
+          >Courses Currently In Progress:  {learning_data ? learning_data.length : ""}</LearningContainerHeader>
+          <ScrollBar
+            height={"300px"}
+            width={"100%"}
+            content={
+              <LearningContentContainer
+                css={{
+                  borderColor: themeMode ? "Black" : "White",
+                  background: themeMode ? "White" : `Black`
+                }}
+              >
+                {learning_data}
+              </LearningContentContainer>
+            }
 
-      />
-      {/* </LearningDataContainer> */}
-      {/* </PluralsightInfoContainer> */}
+          />
+        </LearningDataContainer>
+      </PluralsightInfoContainer>
     </>
   );
 };

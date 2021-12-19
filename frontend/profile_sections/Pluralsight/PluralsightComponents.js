@@ -55,6 +55,8 @@ const BadgeContentContainer = styled('div', {
 })
 const BadgeInfoBody = styled("div", {
     background: `linear-gradient(174.59deg, ${mint.mint9} -38.91%, ${mint.mint12} 95.67%)`,
+    height: "100%",
+    width: "100%",
     display: "flex",
     flexDirection: "column",
     borderRadius: 12,

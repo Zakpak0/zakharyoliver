@@ -87,7 +87,7 @@ export default function Home() {
     display: "grid",
     gridTemplateColumns: "1fr 1fr",
     gridTemplateRows: "auto",
-    gridTemplateAreas: `"leetcode  leetcode  leetcode leetcode"
+    gridTemplateAreas: `"calendar calendar  leetcode leetcode"
     "pluralsight  pluralsight pluralsight pluralsight "
     ". github github ."
     `,
@@ -137,26 +137,26 @@ export default function Home() {
           Schedule a appointment with me <code>/calendar</code>
         </P>
           <Div>
-{/*             
+            
             <NoA
               css={{
               gridArea: "calendar"
             }}
             >
                 <H2>Calendar</H2>
-              <P>Schedule an appointment here</P> */}
-              {/* <CalendarSection themeMode={themeMode} theme={theme} /> */}
-            {/* </NoA> */}
-            {/* <NoA
+              <P>Schedule an appointment here</P>
+              <CalendarSection themeMode={themeMode} theme={theme} />
+            </NoA>
+            <NoA
              css={{
               gridArea: "leetcode"
             }}
             >
               <H2>Problem Solving Skills</H2>
-              <P>Leet Code</P> */}
+              <P>Leet Code</P>
               <LeetcodeSection themeMode={themeMode} theme={theme} />
-                {/* </NoA> */}
-            {/* <NoA
+                </NoA>
+            <NoA
              css={{
                 gridArea: "pluralsight",
                 width: "100%",
@@ -168,9 +168,9 @@ export default function Home() {
             }}
             >
               <H2>Technical Skills</H2>
-              <P>Pluralsight</P> */}
+              <P>Pluralsight</P>
               <PluralsightSection  themeMode={themeMode} theme={theme} />
-            {/* </NoA>
+            </NoA>
             <A1
               css={{
               gridArea: "github"
@@ -179,7 +179,7 @@ export default function Home() {
               <H2>Repositories</H2>
               <P>Github profile</P>
               {/* <GithubSection themeMode={themeMode} theme={theme} /> */}
-            {/* </A1> */}
+            </A1>
           </Div>
       </Main>
       </div>

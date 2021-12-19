@@ -47,6 +47,7 @@ const LeetcodeSection = ({ themeMode }) => {
                       }}
                     >Difficulty:</ProblemInfoHeader> {difficulty}</ProblemInfo>
                   </ProblemInfoContainer>
+                  <iframe href={`https://leetcode.com/problems/${link}`} />
                 </SolvedProblemContainer>
 
 
@@ -115,7 +116,7 @@ const LeetcodeSection = ({ themeMode }) => {
     <>
       <ScrollBar
         css={{
-          gridArea: "pluralsight",
+          gridArea: "leetcode",
         }}
         content={<SolvedProblemsContainer>{loading ?
           <ProgressBar
